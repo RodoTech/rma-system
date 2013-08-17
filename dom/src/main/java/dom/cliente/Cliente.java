@@ -18,10 +18,10 @@ import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
 
 import dom.persona.Persona;
+import dom.vo.Domicilio;
 import dom.vo.Email;
 import java.util.ArrayList;
-import javax.jdo.annotations.Element;
-import javax.jdo.annotations.Join;
+
 import org.apache.isis.applib.annotation.PublishedAction;
 
 
@@ -38,20 +38,20 @@ import org.apache.isis.applib.annotation.PublishedAction;
 public class Cliente extends Persona  {
 		
 
-	@Named("Cliente")
-	public String title(){
-            return super.getApellido()+","+this.getNombre();
-          
-	}
-		
-	@Persistent
-	private String nroCliente;
-	
-	@Persistent
-	private Boolean activo;
+    @Named("Cliente")
+    public String title(){
+        return super.getApellido()+","+this.getNombre();
 
-    private  List<Email> emails = new ArrayList<Email>(); ;
-    
+    }
+
+    @Persistent
+    private String nroCliente;
+
+    @Persistent
+    private Boolean activo;
+
+    private  List<Email> emails = new ArrayList<Email>();
+    private  List<Domicilio> domicilios = new ArrayList<Domicilio>();
    
     public List <Email> getEmails() {
         return emails;
@@ -61,6 +61,28 @@ public class Cliente extends Persona  {
         this.emails = emails;
     }
     @PublishedAction
+    @MemberOrder(name="dependencies", sequence = "4")
+    public Cliente agregarDomicilio(
+             @Named("Barrio")String Barrio,
+             @Named("Calle")String Calle,
+             @Named("Altura")String Altura
+             ) 
+    {
+        Domicilio domicilio = new Domicilio();
+        domicilio.setAltura(Altura);
+        domicilio.setBarrio(Barrio);
+        domicilio.setCalle(Calle);
+        getDomicilios().add(domicilio);
+        return this;
+    }
+        public List <Domicilio> getDomicilios() {
+        return domicilios;
+    }
+  
+    private void setDomicilios(List<Domicilio> Domicilios) { 
+        this.domicilios = Domicilios;
+    }
+    @PublishedAction
     @MemberOrder(name="dependencies", sequence = "3")
     public Cliente addCorreo(String Email) {
         Email mail = new Email();
@@ -68,7 +90,7 @@ public class Cliente extends Persona  {
         getEmails().add(mail);
         return this;
     }
-      
+        
         
     public Cliente()
     {
@@ -80,24 +102,24 @@ public class Cliente extends Persona  {
     @MemberOrder(name = "General", sequence = "8")
 	
 	
-	public String getNroCliente() {
-		return nroCliente;
-	}
-	
-	@MemberOrder(name = "General", sequence = "1")
-	public void setNroCliente(String nroCliente) {
-		this.nroCliente = nroCliente;
-	} 
+    public String getNroCliente() {
+            return nroCliente;
+    }
 
-	@MemberOrder(sequence = "7")
-	public Boolean getActivo() {
-		return activo;
-	}
+    @MemberOrder(name = "General", sequence = "1")
+    public void setNroCliente(String nroCliente) {
+            this.nroCliente = nroCliente;
+    } 
 
-	@MemberOrder(name = "General", sequence = "7")
-	public void setActivo(Boolean activo) {
-		this.activo = activo;
-	}
+    @MemberOrder(sequence = "7")
+    public Boolean getActivo() {
+            return activo;
+    }
+
+    @MemberOrder(name = "General", sequence = "7")
+    public void setActivo(Boolean activo) {
+            this.activo = activo;
+    }
 
 
     // {{ injected: DomainObjectContainer
