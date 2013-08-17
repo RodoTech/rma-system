@@ -10,9 +10,6 @@ import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ActionSemantics.Of;
 
-import dom.vo.Email;
-
-
 @Named("Cliente")
 public class ClientesRepo extends  AbstractFactoryAndRepository {
    
@@ -58,7 +55,8 @@ public class ClientesRepo extends  AbstractFactoryAndRepository {
     @MemberOrder(sequence = "4")
     public List<Cliente> allClientes() {
     	
-    	 final List<Cliente> clientes= allInstances(Cliente.class);
+    	 final List<Cliente> clientes;
+        clientes = allInstances(Cliente.class);
 		 return clientes; 
        
     }

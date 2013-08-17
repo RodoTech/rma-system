@@ -34,39 +34,29 @@ import org.apache.isis.applib.annotation.PublishedAction;
 @Version(strategy=VersionStrategy.VERSION_NUMBER, column="VERSION")
 @ObjectType("CLIENTE")
 @AutoComplete(repository=Cliente.class, action="autoComplete")
-@MemberGroups({"General"})
+@MemberGroups({"Datos CLiente"})
 public class Cliente extends Persona  {
-		
-
     @Named("Cliente")
     public String title(){
         return super.getApellido()+","+this.getNombre();
 
     }
-
     @Persistent
     private String nroCliente;
-
     @Persistent
     private Boolean activo;
-
     private  List<Email> emails = new ArrayList<Email>();
     private  List<Domicilio> domicilios = new ArrayList<Domicilio>();
-   
     public List <Email> getEmails() {
         return emails;
     }
-  
+    
     private void setEmails(List<Email> emails) { 
         this.emails = emails;
     }
+    
     @PublishedAction
-    @MemberOrder(name="dependencies", sequence = "4")
-    public Cliente agregarDomicilio(
-             @Named("Barrio")String Barrio,
-             @Named("Calle")String Calle,
-             @Named("Altura")String Altura
-             ) 
+    public Cliente agregarDomicilio(@Named("Barrio")String Barrio,@Named("Calle")String Calle, @Named("Altura")String Altura) 
     {
         Domicilio domicilio = new Domicilio();
         domicilio.setAltura(Altura);
@@ -75,67 +65,57 @@ public class Cliente extends Persona  {
         getDomicilios().add(domicilio);
         return this;
     }
-        public List <Domicilio> getDomicilios() {
+    
+    public List <Domicilio> getDomicilios() {
         return domicilios;
     }
-  
+    
     private void setDomicilios(List<Domicilio> Domicilios) { 
         this.domicilios = Domicilios;
     }
+    
     @PublishedAction
-    @MemberOrder(name="dependencies", sequence = "3")
     public Cliente addCorreo(String Email) {
         Email mail = new Email();
         mail.setDireccion(Email);
         getEmails().add(mail);
         return this;
-    }
-        
-        
+    } 
+    
     public Cliente()
     {
-       // correros = new HashSet<Email>();
-         emails = new ArrayList<Email>();
-    	//this.correos =  new ArrayList<Email>();
-		
     }
-    @MemberOrder(name = "General", sequence = "8")
-	
-	
+    
+   
     public String getNroCliente() {
             return nroCliente;
     }
 
-    @MemberOrder(name = "General", sequence = "1")
     public void setNroCliente(String nroCliente) {
             this.nroCliente = nroCliente;
-    } 
+    }
+    
 
-    @MemberOrder(sequence = "7")
     public Boolean getActivo() {
             return activo;
     }
+    
 
-    @MemberOrder(name = "General", sequence = "7")
     public void setActivo(Boolean activo) {
             this.activo = activo;
     }
-
-
+    
     // {{ injected: DomainObjectContainer
     @SuppressWarnings("unused")
     private DomainObjectContainer container;
-
     public void setDomainObjectContainer(final DomainObjectContainer container) {
         this.container = container;
     }
     
     private ClientesRepo clientesRepo;
-    public void injectToDoItems(final ClientesRepo clientesRepo) {
+    public void injectClientesRepo(final ClientesRepo clientesRepo) {
         this.clientesRepo = clientesRepo;
     }
     
-
-    // }}
 
 }

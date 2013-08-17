@@ -4,6 +4,8 @@
  */
 package dom.vo;
 
+import dom.cliente.Cliente;
+import dom.empleado.Empleado;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import org.apache.isis.applib.DomainObjectContainer;
@@ -47,8 +49,6 @@ public class Domicilio {
         this.altura = altura;
     }
 
-    
-  
 	
     @SuppressWarnings("unused")
     private DomainObjectContainer container;
