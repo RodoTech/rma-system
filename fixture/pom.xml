@@ -21,17 +21,17 @@
 
     <parent>
     	<groupId>ar.rodotech</groupId>
-        <artifactId>sistemarma</artifactId>
+        <artifactId>sistema-rma</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-	<artifactId>sistemarma-fixture</artifactId>
-	<name>Quickstart Fixtures</name>
+	<artifactId>sistema-rma-fixture</artifactId>
+	<name>Quickstart Wicket/Restful/JDO Fixtures</name>
 
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>sistemarma-objstore-dflt</artifactId>
+			<artifactId>sistema-rma-dom</artifactId>
 		</dependency>
 	</dependencies>
 

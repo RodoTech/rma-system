@@ -17,21 +17,27 @@
   specific language governing permissions and limitations
   under the License.
 --><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>ar.rodotech</groupId>
-        <artifactId>sistemarma</artifactId>
+        <artifactId>sistema-rma</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-	<artifactId>sistemarma-webapp</artifactId>
-	<name>Quickstart Webapp with HTML+JSON Viewers</name>
-	
-	<packaging>war</packaging>
+    <artifactId>sistema-rma-webapp</artifactId>
+    <name>Quickstart Wicket/Restful/JDO Webapp</name>
 
-	<build>
-		<plugins>
+    <description>This module runs both the Wicket viewer and the Restfulobjects viewer in a single webapp configured to run using the datanucleus object store.</description>
+
+    <packaging>war</packaging>
+
+    <properties>
+        <siteBaseDir>..</siteBaseDir>
+    </properties>
+    
+    <build>
+        <plugins>
             <plugin>
                 <groupId>org.mortbay.jetty</groupId>
                 <artifactId>maven-jetty-plugin</artifactId>
@@ -69,86 +75,216 @@
                 </configuration>
             </plugin>
 
-		</plugins>
-	</build>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>1.5</version>
+                  <executions>
+                    <execution>
+                      <phase>validate</phase>
+                      <goals>
+                        <goal>maven-version</goal>
+                      </goals>
+                    </execution>
+                  </executions>
+            </plugin>
 
-	<dependencies>
-	
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <warName>quickstart</warName>
+                    <archive>
+                        <manifest>
+                            <addClasspath>false</addClasspath>
+                        </manifest>
+                        <manifestEntries>
+                            <Build-Time>${maven.build.timestamp}</Build-Time>
+                            <Build-Host>${agent.name}</Build-Host>
+                            <Build-User>${user.name}</Build-User>
+                            <Build-Maven>Maven ${maven.version}</Build-Maven>
+                            <Build-Java>${java.version}</Build-Java>
+                            <Build-OS>${os.name}</Build-OS>
+                            <Build-Label>${project.version}</Build-Label>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+
+        </plugins>
+        <pluginManagement>
+            <plugins>
+                <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+                <plugin>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.codehaus.mojo</groupId>
+                                        <artifactId>build-helper-maven-plugin</artifactId>
+                                        <versionRange>[1.5,)</versionRange>
+                                        <goals>
+                                            <goal>maven-version</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore></ignore>
+                                    </action>
+                                </pluginExecution>
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <dependencies>
+    
         <!-- other modules in this project -->
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>sistemarma-dom</artifactId>
+            <artifactId>sistema-rma-dom</artifactId>
+            <exclusions>
+                <exclusion>
+                    <!-- so don't pick up transitive dependency to asm 4.0.0 -->
+                    <groupId>org.datanucleus</groupId>
+                    <artifactId>datanucleus-enhancer</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
-        
+
+        <!-- objectstore/domain service/repository implementations (brings in dependency to objectstore-jdo)-->
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>sistemarma-fixture</artifactId>
-        </dependency>
-
-
-        <!-- isis viewer -->
-		<dependency>
-	        <groupId>org.apache.isis.viewer</groupId>
-			<artifactId>html</artifactId>
-		</dependency>
-
-        <dependency>
-            <groupId>org.apache.isis.viewer</groupId>
-            <artifactId>json-viewer</artifactId>
-        </dependency>
-
-        <!-- isis runtime -->
-        <dependency>
-            <groupId>org.apache.isis.runtimes.dflt.bytecode</groupId>
-            <artifactId>dflt</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.isis.runtimes.dflt.objectstores</groupId>
-            <artifactId>dflt</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.isis.runtimes.dflt.objectstores</groupId>
-            <artifactId>xml</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.isis.runtimes.dflt.profilestores</groupId>
-            <artifactId>dflt</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.isis.runtimes.dflt.profilestores</groupId>
-            <artifactId>xml</artifactId>
+            <artifactId>sistema-rma-objstore-jdo</artifactId>
+            <exclusions>
+                <exclusion>
+                    <!-- so don't pick up transitive dependency to asm 4.0.0 -->
+                    <groupId>org.datanucleus</groupId>
+                    <artifactId>datanucleus-enhancer</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         
-        <!-- isis progmodel -->
+        <!-- other isis components -->
         <dependency>
-            <groupId>org.apache.isis.progmodels</groupId>
-            <artifactId>dflt</artifactId>
+            <groupId>org.apache.isis.viewer</groupId>
+            <artifactId>isis-viewer-wicket-impl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.isis.viewer</groupId>
+            <artifactId>isis-viewer-restfulobjects-server</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.isis.security</groupId>
+            <artifactId>isis-security-shiro</artifactId>
         </dependency>
 
-        <!-- isis security implementations -->        
+
+        <!-- isis core -->
         <dependency>
-            <groupId>org.apache.isis.security</groupId>
-            <artifactId>file</artifactId>
+            <groupId>org.apache.isis.core</groupId>
+            <artifactId>isis-core-runtime</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.isis.security</groupId>
-            <artifactId>dflt</artifactId>
+            <groupId>org.apache.isis.core</groupId>
+            <artifactId>isis-core-profilestore</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.isis.core</groupId>
+            <artifactId>isis-core-security</artifactId>
         </dependency>
         
         <!-- to run using WebServer (optional) -->
         <dependency>
-            <groupId>org.apache.isis.runtimes.dflt</groupId>
-            <artifactId>webserver</artifactId>
+            <groupId>org.apache.isis.core</groupId>
+            <artifactId>isis-core-webserver</artifactId>
             <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
 
+
         <dependency>
             <groupId>org.apache.geronimo.specs</groupId>
             <artifactId>geronimo-servlet_2.5_spec</artifactId>
-            <version>1.2</version>
+            <scope>provided</scope>
         </dependency>
 
-	</dependencies>
+        <!-- 
+          JDBC drivers 
+          (for jdo objectstore)
+          -->
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+        </dependency>
+
+        <!-- 
+        <dependency>
+            <groupId>postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>9.1-901.jdbc4</version>
+        </dependency>
+         -->
+
+        <!-- 
+        mvn install:install-file -Dfile=sqljdbc4.jar \
+                                 -DgroupId=com.microsoft.sqlserver \
+                                 -DartifactId=jdbc \
+                                 -Dversion=4.0 \
+                                 -Dpackaging=jar
+         -->
+         <!-- 
+        <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>jdbc</artifactId>
+            <version>4.0</version>
+        </dependency>
+          -->
+
+        <dependency>
+          <groupId>org.lazyluke</groupId>
+          <artifactId>log4jdbc-remix</artifactId>
+          <exclusions>
+            <exclusion>
+              <groupId>org.slf4j</groupId>
+              <artifactId>slf4j-api</artifactId>
+            </exclusion>
+          </exclusions>
+        </dependency>
+
+
+        <!-- 3rd party dependency -->
+        <!-- 
+        GMAP3: uncomment to use https://github.com/danhaywood/isis-wicket-gmap3
+        <dependency>
+            <groupId>com.danhaywood.isis.wicket.ui.components</groupId>
+            <artifactId>danhaywood-isis-wicket-gmap3-ui</artifactId>
+        </dependency>
+         -->
+        <!-- 
+        WICKEDCHARTS: uncomment to use https://github.com/danhaywood/isis-wicket-wickedcharts
+        <dependency>
+            <groupId>com.danhaywood.isis.wicket.ui.components</groupId>
+            <artifactId>danhaywood-isis-wicket-wickedcharts-scalarchart</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.danhaywood.isis.wicket.ui.components</groupId>
+            <artifactId>danhaywood-isis-wicket-wickedcharts-summarycharts</artifactId>
+        </dependency>
+         -->
+        <!-- 
+        EXCEL: uncomment to use https://github.com/danhaywood/isis-wicket-excel
+        <dependency>
+            <groupId>com.danhaywood.isis.wicket.ui.components</groupId>
+            <artifactId>danhaywood-isis-wicket-excel</artifactId>
+        </dependency>
+         -->
+         
+    </dependencies>
 
 </project>
