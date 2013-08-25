@@ -17,17 +17,10 @@ import javax.jdo.annotations.VersionStrategy;
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.AutoComplete;
 import org.apache.isis.applib.annotation.MemberGroups;
-import org.apache.isis.applib.annotation.MemberOrder;
+
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
-import org.apache.isis.applib.annotation.PublishedAction;
 
-import org.apache.isis.applib.value.Date;
-
-/**
- *
- * @author Malgav5
- */
 @PersistenceCapable(identityType=IdentityType.DATASTORE)
 @DatastoreIdentity(strategy=IdGeneratorStrategy.IDENTITY)
 @Version(strategy=VersionStrategy.VERSION_NUMBER, column="VERSION")
@@ -70,7 +63,7 @@ public class Empleado extends Persona {
     }
 
    
-    
+   /* 
     private  List<Email> emails = new ArrayList<Email>();
     private  List<Domicilio> domicilios = new ArrayList<Domicilio>();
     public List <Email> getEmails() {
@@ -107,7 +100,7 @@ public class Empleado extends Persona {
         getEmails().add(mail);
         return this;
     } 
-    
+    */
     // {{ injected: DomainObjectContainer
     @SuppressWarnings("unused")
     private DomainObjectContainer container;

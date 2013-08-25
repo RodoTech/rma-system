@@ -44,7 +44,7 @@ public class ClientesRepo extends  AbstractFactoryAndRepository {
         cliente.setApellido(apellido);
         cliente.setNombre(nombre);
         cliente.setDni(Dni);
-        cliente.setTelefono(Telefono);
+       
         cliente.setNroCliente(NroCliente);
         cliente.setActivo(activo);
         persist(cliente);

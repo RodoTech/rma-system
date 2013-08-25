@@ -24,10 +24,7 @@ public abstract class Persona extends AbstractDomainObject{
 	private String nombre;
 	@Persistent
     private String dni;
-	@Persistent
-    private String direccion;
-	@Persistent
-    private String telefono;
+	
 	 
 	public String getApellido() {
 	        return apellido;
@@ -55,23 +52,5 @@ public abstract class Persona extends AbstractDomainObject{
 	public void setDni(String dni) {
 		this.dni = dni;
 	}
-	 
-	public String getDireccion() {
-		return direccion;
-	}
-	
-	@MemberOrder(name = "General", sequence = "5")
-	public void setDireccion(String direccion) {
-		this.direccion = direccion;
-	}
-		
-	public String getTelefono() {
-		return telefono;
-	}
 
-	@MemberOrder(name = "General", sequence = "6")
-	public void setTelefono(String telefono) {
-		this.telefono = telefono;
-	}
-	
 }

@@ -51,7 +51,7 @@ public class EmpleadosRepo extends  AbstractFactoryAndRepository {
         empleado.setApellido(apellido);
         empleado.setNombre(nombre);
         empleado.setDni(Dni);
-        empleado.setTelefono(Telefono);
+
         empleado.setNroLegajo(NroLegajo);
 
         empleado.setActivo(activo);
