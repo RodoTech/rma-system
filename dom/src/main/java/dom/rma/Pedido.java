@@ -5,6 +5,7 @@
 package dom.rma;
 
 import dom.cliente.Cliente;
+import javax.jdo.annotations.Persistent;
 import org.apache.isis.applib.DomainObjectContainer;
 import org.joda.time.LocalDate;
 
@@ -14,17 +15,29 @@ import org.joda.time.LocalDate;
  */
 public class Pedido {
   
+    @Persistent
     private String empresa;
+    @Persistent
     private String telefono;
+    @Persistent
     private String fax;
+    @Persistent
     private String dni;
+    @Persistent
     private String marca;
+    @Persistent
     private String modelo;
+    @Persistent
     private String numeroSerie;
+    @Persistent
     private int cantidad;
+    @Persistent
     private String accesorios;
+    @Persistent
     private LocalDate fechaCompra;
+    @Persistent
     private String descripcionAveria;
+    @Persistent
     private Cliente cliente;
 
     public String getEmpresa() {

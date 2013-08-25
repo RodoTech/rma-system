@@ -24,7 +24,16 @@ public class Recepcion {
     private Boolean paqueteCorrecto;
     @Persistent
     private Boolean aceptado;
+    @Persistent 
+    private Pedido pedido;
 
+    public Pedido getPedido() {
+        return pedido;
+    }
+
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
+    }
     public String getObservacinones() {
         return observacinones;
     }
