@@ -4,10 +4,17 @@
  */
 package dom.rma;
 
+import org.apache.isis.applib.DomainObjectContainer;
+
 /**
  *
  * @author Malgav5
  */
 public class Reparacion {
-    
+  
+    @SuppressWarnings("unused")
+    private DomainObjectContainer container;
+    public void setDomainObjectContainer(final DomainObjectContainer container) {
+        this.container = container;
+    }
 }
