@@ -5,24 +5,32 @@
 package dom.rma;
 
 import dom.cliente.Cliente;
+import javax.jdo.annotations.DatastoreIdentity;
+import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.Version;
+import javax.jdo.annotations.VersionStrategy;
 import org.apache.isis.applib.DomainObjectContainer;
+import org.apache.isis.applib.annotation.AutoComplete;
+import org.apache.isis.applib.annotation.MemberGroups;
+import org.apache.isis.applib.annotation.ObjectType;
 import org.joda.time.LocalDate;
 
 /**
  *
  * @author Malgav5
  */
+
+@PersistenceCapable(identityType=IdentityType.DATASTORE)
+@DatastoreIdentity(strategy=IdGeneratorStrategy.IDENTITY)
+@Version(strategy=VersionStrategy.VERSION_NUMBER, column="VERSION")
+@ObjectType("PEDIDO")
+@AutoComplete(repository=PedidosRepo.class, action="autoComplete")
+@MemberGroups({"Datos Pedido"})
 public class Pedido {
   
-    @Persistent
-    private String empresa;
-    @Persistent
-    private String telefono;
-    @Persistent
-    private String fax;
-    @Persistent
-    private String dni;
     @Persistent
     private String marca;
     @Persistent
@@ -39,38 +47,6 @@ public class Pedido {
     private String descripcionAveria;
     @Persistent
     private Cliente cliente;
-
-    public String getEmpresa() {
-        return empresa;
-    }
-
-    public void setEmpresa(String empresa) {
-        this.empresa = empresa;
-    }
-
-    public String getTelefono() {
-        return telefono;
-    }
-
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
-
-    public String getFax() {
-        return fax;
-    }
-
-    public void setFax(String fax) {
-        this.fax = fax;
-    }
-
-    public String getDni() {
-        return dni;
-    }
-
-    public void setDni(String dni) {
-        this.dni = dni;
-    }
 
     public String getMarca() {
         return marca;
@@ -143,9 +119,7 @@ public class Pedido {
     public void setContainer(DomainObjectContainer container) {
         this.container = container;
     }
-    
-    
-    
+
     
     @SuppressWarnings("unused")
     private DomainObjectContainer container;

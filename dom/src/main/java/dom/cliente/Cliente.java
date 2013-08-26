@@ -18,6 +18,7 @@ import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
 
 import dom.persona.Persona;
+import dom.vo.DatosContacto;
 import dom.vo.Domicilio;
 import dom.vo.Email;
 import java.util.ArrayList;
@@ -45,14 +46,24 @@ public class Cliente extends Persona  {
     private String nroCliente;
     @Persistent
     private Boolean activo;
-    private  List<Email> emails = new ArrayList<Email>();
+    @Persistent
+    private String empresa;
+
+    public String getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(String empresa) {
+        this.empresa = empresa;
+    }
+    private  List<DatosContacto> datosContactos = new ArrayList<DatosContacto>();
     private  List<Domicilio> domicilios = new ArrayList<Domicilio>();
-    public List <Email> getEmails() {
-        return emails;
+    public List <DatosContacto> getDatosContacto() {
+        return datosContactos;
     }
     
-    private void setEmails(List<Email> emails) { 
-        this.emails = emails;
+    private void setDatosContactos(List<DatosContacto> datosContactos) { 
+        this.datosContactos = datosContactos;
     }
     
     @PublishedAction
@@ -75,10 +86,10 @@ public class Cliente extends Persona  {
     }
     
     @PublishedAction
-    public Cliente addCorreo(String Email) {
-        Email mail = new Email();
-        mail.setDireccion(Email);
-        getEmails().add(mail);
+    public Cliente addCorreo(@Named("Telefono")String Telefono,@Named("Fax")String Fax,@Named("Email")String email) {
+        DatosContacto datos  = new DatosContacto(Telefono,Fax,email);
+    
+        getDatosContacto().add(datos);
         return this;
     } 
     
