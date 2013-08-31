@@ -2,10 +2,6 @@ package dom.empleado;
 
 
 import dom.persona.Persona;
-import dom.vo.Domicilio;
-import dom.vo.Email;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.jdo.annotations.DatastoreIdentity;
 import javax.jdo.annotations.IdGeneratorStrategy;

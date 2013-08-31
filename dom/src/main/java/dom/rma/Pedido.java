@@ -3,7 +3,8 @@
  * and open the template in the editor.
  */
 package dom.rma;
-
+import dom.rma.*;
+        
 import dom.cliente.Cliente;
 import javax.jdo.annotations.DatastoreIdentity;
 import javax.jdo.annotations.IdGeneratorStrategy;
@@ -15,6 +16,7 @@ import javax.jdo.annotations.VersionStrategy;
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.AutoComplete;
 import org.apache.isis.applib.annotation.MemberGroups;
+import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
 import org.joda.time.LocalDate;
 
@@ -47,6 +49,24 @@ public class Pedido {
     private String descripcionAveria;
     @Persistent
     private Cliente cliente;
+    
+      @Named("Empleado")
+    public String title(){
+        return this.getMarca()+"-"+this.getNumeroSerie();
+
+    }
+    
+    
+    
+    private Estado estado;
+
+    public Estado getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Estado estado) {
+        this.estado = estado;
+    }
 
     public String getMarca() {
         return marca;
@@ -126,4 +146,11 @@ public class Pedido {
     public void setDomainObjectContainer(final DomainObjectContainer container) {
         this.container = container;
     }
+    public enum Estado {
+    UNKNOW, RECIBIDO, RECHAZADO, REPARANDO,
+    REPARADO,EMPACANDO , ENVIADO 
+    
 }
+}
+
+

@@ -13,14 +13,14 @@ import javax.jdo.annotations.VersionStrategy;
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.AutoComplete;
 import org.apache.isis.applib.annotation.MemberGroups;
-import org.apache.isis.applib.annotation.MemberOrder;
+
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
 
 import dom.persona.Persona;
 import dom.vo.DatosContacto;
 import dom.vo.Domicilio;
-import dom.vo.Email;
+
 import java.util.ArrayList;
 
 import org.apache.isis.applib.annotation.PublishedAction;

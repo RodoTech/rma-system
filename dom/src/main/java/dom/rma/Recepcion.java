@@ -4,14 +4,29 @@
  */
 package dom.rma;
 
+import javax.jdo.annotations.DatastoreIdentity;
+import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.Version;
+import javax.jdo.annotations.VersionStrategy;
 import org.apache.isis.applib.DomainObjectContainer;
+import org.apache.isis.applib.annotation.AutoComplete;
+import org.apache.isis.applib.annotation.MemberGroups;
+import org.apache.isis.applib.annotation.ObjectType;
 import org.joda.time.LocalDate;
 
 /**
  *
  * @author Malgav5
  */
+@PersistenceCapable(identityType=IdentityType.DATASTORE)
+@DatastoreIdentity(strategy=IdGeneratorStrategy.IDENTITY)
+@Version(strategy=VersionStrategy.VERSION_NUMBER, column="VERSION")
+@ObjectType("Recepcion")
+@AutoComplete(repository=RecepcionesRepo.class, action="autoComplete")
+@MemberGroups({"Datos Recepcion"})
 public class Recepcion {
     
     @Persistent
