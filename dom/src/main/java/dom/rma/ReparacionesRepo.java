@@ -20,7 +20,7 @@ import org.joda.time.LocalDate;
  */
 public class ReparacionesRepo extends  AbstractFactoryAndRepository {
      @MemberOrder(sequence = "1")
-    public Reparacion newRecepcion(
+    public Reparacion newReparacion(
             @Named("Pedido") Pedido pedido, 
             @Named("Fecha Ingreso REcepcion") LocalDate fechaIngreso,
             @Named("Fecha Ingreso fechaReparacion") LocalDate fechaReparacion,

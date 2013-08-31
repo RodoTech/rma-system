@@ -4,14 +4,31 @@
  */
 package dom.rma;
 
+import javax.jdo.annotations.DatastoreIdentity;
+import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.Version;
+import javax.jdo.annotations.VersionStrategy;
 import org.apache.isis.applib.DomainObjectContainer;
+import org.apache.isis.applib.annotation.AutoComplete;
+import org.apache.isis.applib.annotation.MemberGroups;
+import org.apache.isis.applib.annotation.ObjectType;
 import org.joda.time.LocalDate;
-
+import dom.rma.EmpresasTransporte;
 /**
  *
  * @author Malgav5
  */
+
+
+@PersistenceCapable(identityType=IdentityType.DATASTORE)
+@DatastoreIdentity(strategy=IdGeneratorStrategy.IDENTITY)
+@Version(strategy=VersionStrategy.VERSION_NUMBER, column="VERSION")
+@ObjectType("Envio")
+@AutoComplete(repository=EnviosRepo.class, action="autoComplete")
+@MemberGroups({"Datos Envio"})
 public class Envio {
     
     @Persistent
@@ -19,11 +36,21 @@ public class Envio {
     @Persistent
     private LocalDate fechaIgreso;
     @Persistent
-    private LocalDate fechaEnvio;
+    private LocalDate fechaDespacho;
+    @Persistent 
+    private Pedido pedido;
+  @Persistent
+    private EmpresasTransporte  empresa;
+
+    public EmpresasTransporte getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(EmpresasTransporte empresa) {
+        this.empresa = empresa;
+    }
     @Persistent 
     private String nroGuiaEnvio;
-    @Persistent
-    private Pedido pedido;
 
     public String getObservaciones() {
         return observaciones;
@@ -41,20 +68,12 @@ public class Envio {
         this.fechaIgreso = fechaIgreso;
     }
 
-    public LocalDate getFechaEnvio() {
-        return fechaEnvio;
+    public LocalDate getFechaDespacho() {
+        return fechaDespacho;
     }
 
-    public void setFechaEnvio(LocalDate fechaEnvio) {
-        this.fechaEnvio = fechaEnvio;
-    }
-
-    public String getNroGuiaEnvio() {
-        return nroGuiaEnvio;
-    }
-
-    public void setNroGuiaEnvio(String nroGuiaEnvio) {
-        this.nroGuiaEnvio = nroGuiaEnvio;
+    public void setFechaDespacho(LocalDate fechaDespacho) {
+        this.fechaDespacho = fechaDespacho;
     }
 
     public Pedido getPedido() {
@@ -64,9 +83,21 @@ public class Envio {
     public void setPedido(Pedido pedido) {
         this.pedido = pedido;
     }
-    
-    
-    
+
+    /**
+     *
+     * @return
+     */
+   
+
+    public String getNroGuiaEnvio() {
+        return nroGuiaEnvio;
+    }
+
+    public void setNroGuiaEnvio(String nroGuiaEnvio) {
+        this.nroGuiaEnvio = nroGuiaEnvio;
+    }
+
     @SuppressWarnings("unused")
     private DomainObjectContainer container;
     public void setDomainObjectContainer(final DomainObjectContainer container) {
