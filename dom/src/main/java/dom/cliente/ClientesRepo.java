@@ -14,7 +14,7 @@ import org.apache.isis.applib.annotation.ActionSemantics.Of;
 public class ClientesRepo extends  AbstractFactoryAndRepository {
    
     @MemberOrder(sequence = "1")
-    public Cliente newCliente(
+    public Cliente nuevoCliente(
             @Named("Apellido") String apellido, 
             @Named("Nombre") String nombre,
             @Named("Dni") String dni,
@@ -52,13 +52,30 @@ public class ClientesRepo extends  AbstractFactoryAndRepository {
     }
 
     @ActionSemantics(Of.SAFE)
-    @MemberOrder(sequence = "4")
-    public List<Cliente> allClientes() {
+    @MemberOrder(sequence = "2")
+    public List<Cliente> listaClientes() {
     	
     	 final List<Cliente> clientes;
         clientes = allInstances(Cliente.class);
 		 return clientes; 
        
     }
-
+   
+    @MemberOrder(sequence = "3")
+    public List<Cliente> listaClientesActivos() {
+       
+    
+        final List<Cliente> items = allMatches(Cliente.class, Cliente.allActivos(Boolean.TRUE));
+        //Collections.sort(items);
+        return items;
+    }
+        
+    @MemberOrder(sequence = "4")
+    public List<Cliente> listaClientesInactivos() {
+        final List<Cliente> items = allMatches(Cliente.class, Cliente.allActivos(Boolean.FALSE));
+        //Collections.sort(items);
+        return items;
+    }
+     
+    
 }

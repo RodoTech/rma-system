@@ -24,21 +24,22 @@ public class RecepcionesRepo extends  AbstractFactoryAndRepository {
             @Named("Fecha Ingreso REcepcion") LocalDate fechaIngreso,
             @Named("Paquete correcto") Boolean paqueteCorrecto,
             @Named("Aceptado") Boolean aceptado,
+            @Named("Aceptado") EstadosPedido estado,
             @Named("Pedido") Pedido pedido ) {
-        return addRecepcion(observacinones,fechaIngreso,paqueteCorrecto,aceptado,pedido);   
+        return addRecepcion(observacinones,fechaIngreso,paqueteCorrecto,aceptado,pedido,estado);   
 
     }
 
     @Hidden
-    public Recepcion addRecepcion(String observacinones,LocalDate fechaIngreso,Boolean paqueteCorrecto,Boolean aceptado,Pedido pedido) {
+    public Recepcion addRecepcion(String observacinones,LocalDate fechaIngreso,Boolean paqueteCorrecto,Boolean aceptado,Pedido pedido, EstadosPedido estado) {
         
         final Recepcion recepcion = newTransientInstance(Recepcion.class);
         recepcion.setObservacinones(observacinones);
         recepcion.setFechaIngreso(fechaIngreso);
         recepcion.setPaqueteCorrecto(paqueteCorrecto);
         recepcion.setAceptado(aceptado);
+        pedido.setEstado(estado);
         recepcion.setPedido(pedido);
-
         persist(recepcion);
         return recepcion;
     }

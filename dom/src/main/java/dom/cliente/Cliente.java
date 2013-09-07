@@ -1,5 +1,6 @@
 package dom.cliente;
 
+import com.google.common.base.Objects;
 import java.util.List;
 
 import javax.jdo.annotations.DatastoreIdentity;
@@ -22,8 +23,11 @@ import dom.vo.DatosContacto;
 import dom.vo.Domicilio;
 
 import java.util.ArrayList;
+import javax.jdo.annotations.Queries;
+import javax.jdo.annotations.Query;
 
 import org.apache.isis.applib.annotation.PublishedAction;
+import org.apache.isis.applib.filter.Filter;
 
 
 /**
@@ -34,6 +38,11 @@ import org.apache.isis.applib.annotation.PublishedAction;
 @DatastoreIdentity(strategy=IdGeneratorStrategy.IDENTITY)
 @Version(strategy=VersionStrategy.VERSION_NUMBER, column="VERSION")
 @ObjectType("CLIENTE")
+@Queries( {
+    @Query(
+            name="cliente_all", language="JDOQL",  
+            value="SELECT FROM dom.cliente.Cliente ")
+})
 @AutoComplete(repository=Cliente.class, action="autoComplete")
 @MemberGroups({"Datos CLiente"})
 public class Cliente extends Persona  {
@@ -127,6 +136,14 @@ public class Cliente extends Persona  {
     public void injectClientesRepo(final ClientesRepo clientesRepo) {
         this.clientesRepo = clientesRepo;
     }
-    
+ 
+    public static Filter<Cliente> allActivos(final Boolean activo) {
+        return new Filter<Cliente>() {
+            @Override
+            public boolean accept(final Cliente cliente) {
+                return Objects.equal(cliente.getActivo(), activo);
+            }
 
+        };
+    }
 }

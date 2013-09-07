@@ -44,17 +44,56 @@ public class PedidosRepo extends  AbstractFactoryAndRepository {
         pedido.setFechaCompra(fechaCompra);
         pedido.setMarca(marca);
         pedido.setModelo(modelo);
+        pedido.setEstado(EstadosPedido.UNKNOW);
         persist(pedido);
         return pedido;
     }
+
     @ActionSemantics(Of.SAFE)
-    @MemberOrder(sequence = "4")
-    public List<Pedido> allPedidos() {
+    @MemberOrder(sequence = "2")
+    public List<Pedido> listaPedidos() {
     	
-    	 final List<Pedido> pedidos;
-        pedidos = allInstances(Pedido.class);
-		 return pedidos; 
+    	 final List<Pedido> Pedidos;
+        Pedidos = allInstances(Pedido.class);
+		 return Pedidos; 
        
     }
-
+    @ActionSemantics(Of.SAFE)
+    @MemberOrder(sequence = "3")
+    public List<Pedido> listaPedidosRecibidos() {
+       
+    
+        final List<Pedido> items = allMatches(Pedido.class, Pedido.allByState(EstadosPedido.RECIBIDO));
+        //Collections.sort(items);
+        return items;
+    }
+    @ActionSemantics(Of.SAFE)
+    @MemberOrder(sequence = "4")
+    public List<Pedido> listaPedidosRechazados() {
+        final List<Pedido> items = allMatches(Pedido.class, Pedido.allByState(EstadosPedido.RECHAZADO));
+        //Collections.sort(items);
+        return items;
+    }
+    @ActionSemantics(Of.SAFE)
+    @MemberOrder(sequence = "6")
+    public List<Pedido> listaPedidosEnviados() {
+        final List<Pedido> items = allMatches(Pedido.class, Pedido.allByState(EstadosPedido.ENVIANDOCE));
+        //Collections.sort(items);
+        return items;
+    }
+        @ActionSemantics(Of.SAFE)
+    @MemberOrder(sequence = "5")
+    public List<Pedido> listaPedidosEnReparacion() {
+        final List<Pedido> items = allMatches(Pedido.class, Pedido.allByState(EstadosPedido.REPARANDOCE));
+        //Collections.sort(items);
+        return items;
+    }
+        
+    @ActionSemantics(Of.SAFE)
+    @MemberOrder(sequence = "7")
+    public List<Pedido> listaPedidosPorLlegar() {
+        final List<Pedido> items = allMatches(Pedido.class, Pedido.allByState(EstadosPedido.UNKNOW));
+        //Collections.sort(items);
+        return items;
+    }
 }

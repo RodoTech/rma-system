@@ -25,7 +25,8 @@ import org.joda.time.LocalDate;
 @DatastoreIdentity(strategy=IdGeneratorStrategy.IDENTITY)
 @Version(strategy=VersionStrategy.VERSION_NUMBER, column="VERSION")
 @ObjectType("Recepcion")
-@AutoComplete(repository=RecepcionesRepo.class, action="autoComplete")
+@AutoComplete(repository=PedidosRepo.class, action="autoComplete")
+
 @MemberGroups({"Datos Recepcion"})
 public class Recepcion {
     

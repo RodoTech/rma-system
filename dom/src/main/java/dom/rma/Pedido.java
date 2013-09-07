@@ -3,6 +3,7 @@
  * and open the template in the editor.
  */
 package dom.rma;
+import com.google.common.base.Objects;
 import dom.rma.*;
         
 import dom.cliente.Cliente;
@@ -15,9 +16,11 @@ import javax.jdo.annotations.Version;
 import javax.jdo.annotations.VersionStrategy;
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.AutoComplete;
+import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberGroups;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
+import org.apache.isis.applib.filter.Filter;
 import org.joda.time.LocalDate;
 
 /**
@@ -49,6 +52,16 @@ public class Pedido {
     private String descripcionAveria;
     @Persistent
     private Cliente cliente;
+    @Persistent
+    private Recepcion recepcion;
+
+    public Recepcion getRecepcion() {
+        return recepcion;
+    }
+    @Hidden
+    public void setRecepcion(Recepcion recepcion) {
+        this.recepcion = recepcion;
+    }
     
       @Named("Empleado")
     public String title(){
@@ -58,13 +71,13 @@ public class Pedido {
     
     
     
-    private Estado estado;
+    private EstadosPedido estado;
 
-    public Estado getEstado() {
+    public EstadosPedido getEstado() {
         return estado;
     }
 
-    public void setEstado(Estado estado) {
+    public void setEstado(EstadosPedido estado) {
         this.estado = estado;
     }
 
@@ -146,11 +159,17 @@ public class Pedido {
     public void setDomainObjectContainer(final DomainObjectContainer container) {
         this.container = container;
     }
-    public enum Estado {
-    UNKNOW, RECIBIDO, RECHAZADO, REPARANDO,
-    REPARADO,EMPACANDO , ENVIADO 
+   
+     public static Filter<Pedido> allByState(final EstadosPedido estado) {
+        return new Filter<Pedido>() {
+            @Override
+            public boolean accept(final Pedido pedido) {
+                return Objects.equal(pedido.getEstado(), estado);
+            }
+
+        };
+    }
     
-}
 }
 
 
