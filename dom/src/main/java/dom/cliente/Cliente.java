@@ -40,14 +40,13 @@ import org.apache.isis.applib.filter.Filter;
             name="cliente_all", language="JDOQL",  
             value="SELECT FROM dom.cliente.Cliente ")
 })
-@AutoComplete(repository=Cliente.class, action="autoComplete")
+@AutoComplete(repository=ClientesRepo.class, action="autoComplete")
 @MemberGroups({"Datos CLiente"})
 public class Cliente extends  Persona  {
 
     @Named("Cliente")
     public String title(){
         return this.getApellido()+","+this.getNombre();
-
     }
     @Persistent
     private String nroCliente;
@@ -74,7 +73,6 @@ public class Cliente extends  Persona  {
      */
     @Disabled
     @MemberOrder(sequence = "1")
-    
     public List <DatosContacto> getDatosContacto() {
         return datosContactos;
     }
@@ -106,9 +104,9 @@ public class Cliente extends  Persona  {
     @PublishedAction
     public Cliente addCorreo(@Named("Telefono")String Telefono,@Named("Fax")String Fax,@Named("Email")String email) {
         DatosContacto datos  = newTransientInstance(DatosContacto.class);
-    datos.setEmail(email);
-    datos.setFax(Fax);
-    datos.setTelefono(Telefono);
+        datos.setEmail(email);
+        datos.setFax(Fax);
+        datos.setTelefono(Telefono);
         getDatosContacto().add(datos);
         return this;
     } 

@@ -11,9 +11,12 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.Version;
 import javax.jdo.annotations.VersionStrategy;
+import org.apache.isis.applib.AbstractDomainObject;
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.AutoComplete;
+import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberGroups;
+import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
 import org.joda.time.LocalDate;
 
@@ -25,10 +28,17 @@ import org.joda.time.LocalDate;
 @DatastoreIdentity(strategy=IdGeneratorStrategy.IDENTITY)
 @Version(strategy=VersionStrategy.VERSION_NUMBER, column="VERSION")
 @ObjectType("Recepcion")
-@AutoComplete(repository=PedidosRepo.class, action="autoComplete")
+@AutoComplete(repository=RecepcionesRepo.class, action="autoComplete")
 
 @MemberGroups({"Datos Recepcion"})
-public class Recepcion {
+public class Recepcion  extends AbstractDomainObject{
+
+      @Named("Empleado")
+    public String title(){
+        return this.getFechaIngreso().toString()+"-"+this.getObservacinones();
+
+    }
+    
     
     @Persistent
     private String observacinones;
@@ -43,10 +53,11 @@ public class Recepcion {
     @Persistent 
     private Pedido pedido;
 
+    @Hidden
     public Pedido getPedido() {
         return pedido;
     }
-
+    @Hidden
     public void setPedido(Pedido pedido) {
         this.pedido = pedido;
     }

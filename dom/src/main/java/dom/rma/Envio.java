@@ -17,6 +17,7 @@ import org.apache.isis.applib.annotation.MemberGroups;
 import org.apache.isis.applib.annotation.ObjectType;
 import org.joda.time.LocalDate;
 import dom.rma.EmpresasTransporte;
+import org.apache.isis.applib.AbstractDomainObject;
 /**
  *
  * @author Malgav5
@@ -29,7 +30,7 @@ import dom.rma.EmpresasTransporte;
 @ObjectType("Envio")
 @AutoComplete(repository=EnviosRepo.class, action="autoComplete")
 @MemberGroups({"Datos Envio"})
-public class Envio {
+public class Envio  extends AbstractDomainObject{
     
     @Persistent
     private String observaciones;

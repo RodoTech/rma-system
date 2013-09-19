@@ -4,8 +4,6 @@
  */
 package dom.rma;
 import com.google.common.base.Objects;
-import dom.rma.*;
-        
 import dom.cliente.Cliente;
 import javax.jdo.annotations.DatastoreIdentity;
 import javax.jdo.annotations.IdGeneratorStrategy;
@@ -14,12 +12,14 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.Version;
 import javax.jdo.annotations.VersionStrategy;
+import org.apache.isis.applib.AbstractDomainObject;
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.AutoComplete;
 import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberGroups;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
+import org.apache.isis.applib.annotation.PublishedAction;
 import org.apache.isis.applib.filter.Filter;
 import org.joda.time.LocalDate;
 
@@ -34,7 +34,7 @@ import org.joda.time.LocalDate;
 @ObjectType("PEDIDO")
 @AutoComplete(repository=PedidosRepo.class, action="autoComplete")
 @MemberGroups({"Datos Pedido"})
-public class Pedido {
+public class Pedido  extends AbstractDomainObject{
   
     @Persistent
     private String marca;
@@ -54,16 +54,34 @@ public class Pedido {
     private Cliente cliente;
     @Persistent
     private Recepcion recepcion;
-
+   
     public Recepcion getRecepcion() {
         return recepcion;
     }
-    @Hidden
+  
     public void setRecepcion(Recepcion recepcion) {
         this.recepcion = recepcion;
     }
     
-      @Named("Empleado")
+     @PublishedAction
+     public Pedido addRecepcion2(String observacinones, LocalDate fechaIngreso, LocalDate fechaDespacho, Boolean paqueteCorrecto, Boolean aceptado) {
+        Recepcion datos=newTransientInstance(Recepcion.class);
+        if(getRecepcion()==null){ 
+            datos  = newTransientInstance(Recepcion.class);}else
+        {
+            datos=getRecepcion();
+        }
+        datos.setAceptado(aceptado);
+        datos.setFechaDespacho(fechaDespacho);
+        datos.setFechaIngreso(fechaIngreso);
+        datos.setObservacinones(observacinones);
+        datos.setPaqueteCorrecto(paqueteCorrecto);
+        this.setEstado(EstadosPedido.RECIBIDO);
+        setRecepcion(datos);
+        return this;
+    } 
+    
+    @Named("Pedido")
     public String title(){
         return this.getMarca()+"-"+this.getNumeroSerie();
 
@@ -169,6 +187,7 @@ public class Pedido {
 
         };
     }
+
     
 }
 

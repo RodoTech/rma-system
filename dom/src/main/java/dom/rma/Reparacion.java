@@ -11,6 +11,7 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.Version;
 import javax.jdo.annotations.VersionStrategy;
+import org.apache.isis.applib.AbstractDomainObject;
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.AutoComplete;
 import org.apache.isis.applib.annotation.MemberGroups;
@@ -28,7 +29,7 @@ import org.joda.time.LocalDate;
 @ObjectType("Reparacion")
 @AutoComplete(repository=ReparacionesRepo.class, action="autoComplete")
 @MemberGroups({"Datos Reparaciones"})
-public class Reparacion {
+public class Reparacion  extends AbstractDomainObject{
   
     @Persistent
     private Pedido pedido;
