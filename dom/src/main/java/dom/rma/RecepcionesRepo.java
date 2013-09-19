@@ -18,7 +18,8 @@ import org.joda.time.LocalDate;
  * @author Malgav5
  */
 public class RecepcionesRepo extends  AbstractFactoryAndRepository {
-     @MemberOrder(sequence = "1")
+    @Hidden
+    @MemberOrder(sequence = "1")
     public Recepcion newRecepcion(
             @Named("Observaciones") String observacinones, 
             @Named("Fecha Ingreso REcepcion") LocalDate fechaIngreso,
