@@ -4,16 +4,29 @@
  */
 package dom.vo;
 
+import dom.cliente.Cliente;
+import javax.jdo.annotations.DatastoreIdentity;
+import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.Key;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
+import javax.jdo.annotations.Version;
+import javax.jdo.annotations.VersionStrategy;
 import org.apache.isis.applib.DomainObjectContainer;
+import org.apache.isis.applib.annotation.ObjectType;
 
 /**
  *
  * @author Malgav5
  */
-@PersistenceCapable 
+@PersistenceCapable
+@DatastoreIdentity(strategy=IdGeneratorStrategy.IDENTITY)
+@Version(strategy=VersionStrategy.VERSION_NUMBER, column="VERSION")
+@ObjectType("DATOSCONTACTO")
 public class DatosContacto {
+
+
 
     public DatosContacto() {
     }
@@ -24,7 +37,7 @@ public class DatosContacto {
         this.email = email;
     }
     
-    
+
     @Persistent
     private String telefono;
     @Persistent
