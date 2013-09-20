@@ -102,7 +102,7 @@ public class Cliente extends  Persona  {
     }
     
     @PublishedAction
-    public Cliente addCorreo(@Named("Telefono")String Telefono,@Named("Fax")String Fax,@Named("Email")String email) {
+    public Cliente addDatosContacto(@Named("Telefono")String Telefono,@Named("Fax")String Fax,@Named("Email")String email) {
         DatosContacto datos  = newTransientInstance(DatosContacto.class);
         datos.setEmail(email);
         datos.setFax(Fax);

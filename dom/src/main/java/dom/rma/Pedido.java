@@ -18,8 +18,10 @@ import org.apache.isis.applib.annotation.AutoComplete;
 import org.apache.isis.applib.annotation.MemberGroups;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
+import org.apache.isis.applib.annotation.Optional;
 import org.apache.isis.applib.annotation.PublishedAction;
 import org.apache.isis.applib.filter.Filter;
+import org.apache.isis.applib.value.Money;
 import org.joda.time.LocalDate;
 
 /**
@@ -56,7 +58,15 @@ public class Pedido  extends AbstractDomainObject{
   private Cliente cliente;
   @Persistent
   private Recepcion recepcion;
-   
+  @Persistent
+  private Reparacion reparacion;
+  public Reparacion getReparacion() {
+	  return reparacion;
+  }
+  public void setReparacion(Reparacion reparacion) {
+	  this.reparacion = reparacion;
+  } 
+  
   public Recepcion getRecepcion() {
     return recepcion;
   }
@@ -148,7 +158,27 @@ public class Pedido  extends AbstractDomainObject{
        this.setEstado(EstadosPedido.RECIBIDO);
        setRecepcion(datos);
        return this;
-    } 
+   } 
+  
+  @PublishedAction
+  public Pedido agregarReparacion(@Named("Detalles")String detalleReparacion, @Named("Fecha ingreso Taller")LocalDate fechaIngreso, @Named("Fecha Reparacion")LocalDate fechaReparacion,@Named("Monto Reparación")Money montoReparacion,@Named("Observaciones")String observaciones,@Named("Reparacion Existosa")@Optional Boolean reparacionExistosa,@Named("Reparacion Terminada") Boolean terminado) {
+       Reparacion datos;
+       if(getReparacion()==null){
+           datos  = newTransientInstance(Reparacion.class);}else
+       {
+            datos=getReparacion();
+       }
+       datos.setDetalleReparacion(detalleReparacion);
+       datos.setFechaIngreso(fechaIngreso);
+       datos.setFechaReparacion(fechaReparacion);
+       datos.setMontoReparacion(montoReparacion);
+       datos.setObservaciones(observaciones);
+       datos.setReparacionExistosa(reparacionExistosa);
+       datos.setTerminado(terminado);
+       this.setReparacion(datos);
+      
+       return this;
+   } 
   public DomainObjectContainer getContainer() {
         return container;
   }

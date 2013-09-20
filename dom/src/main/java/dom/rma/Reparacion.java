@@ -14,6 +14,7 @@ import javax.jdo.annotations.VersionStrategy;
 import org.apache.isis.applib.AbstractDomainObject;
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.AutoComplete;
+import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberGroups;
 import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.value.Money;
@@ -79,11 +80,11 @@ public class Reparacion  extends AbstractDomainObject{
     public void setMontoReparacion(Money montoReparacion) {
         this.montoReparacion = montoReparacion;
     }
-
+    @Hidden
     public Pedido getPedido() {
         return pedido;
     }
-
+    @Hidden
     public void setPedido(Pedido pedido) {
         this.pedido = pedido;
     }
