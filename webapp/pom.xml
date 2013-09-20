@@ -183,8 +183,6 @@
             <groupId>org.apache.isis.security</groupId>
             <artifactId>isis-security-shiro</artifactId>
         </dependency>
-
-
         <!-- isis core -->
         <dependency>
             <groupId>org.apache.isis.core</groupId>
@@ -245,7 +243,6 @@
             <version>4.0</version>
         </dependency>
           -->
-
         <dependency>
           <groupId>org.lazyluke</groupId>
           <artifactId>log4jdbc-remix</artifactId>
@@ -256,8 +253,6 @@
             </exclusion>
           </exclusions>
         </dependency>
-
-
         <!-- 3rd party dependency -->
         <!-- 
         GMAP3: uncomment to use https://github.com/danhaywood/isis-wicket-gmap3
@@ -284,7 +279,7 @@
             <artifactId>danhaywood-isis-wicket-excel</artifactId>
         </dependency>
          -->
-         
+        
     </dependencies>
 
 </project>

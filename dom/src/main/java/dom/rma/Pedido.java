@@ -5,6 +5,8 @@
 package dom.rma;
 import com.google.common.base.Objects;
 import dom.cliente.Cliente;
+import java.util.ArrayList;
+import java.util.List;
 import javax.jdo.annotations.DatastoreIdentity;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
@@ -16,6 +18,7 @@ import org.apache.isis.applib.AbstractDomainObject;
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.AutoComplete;
 import org.apache.isis.applib.annotation.MemberGroups;
+import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.annotation.Optional;
@@ -60,9 +63,22 @@ public class Pedido  extends AbstractDomainObject{
   private Recepcion recepcion;
   @Persistent
   private Reparacion reparacion;
+  
+  private  List<Envio> envios = new ArrayList<Envio>();
+
+   @MemberOrder(sequence = "2")
+    public List<Envio> getEnvios() {
+        return envios;
+    }
+
+    public void setEnvios(List<Envio> envios) {
+        this.envios = envios;
+    }
+  
   public Reparacion getReparacion() {
 	  return reparacion;
   }
+ 
   public void setReparacion(Reparacion reparacion) {
 	  this.reparacion = reparacion;
   } 
@@ -144,7 +160,7 @@ public class Pedido  extends AbstractDomainObject{
    */
   @PublishedAction
   public Pedido agregarRecepcion(String observacinones, LocalDate fechaIngreso, LocalDate fechaDespacho, Boolean paqueteCorrecto, Boolean aceptado) {
-       Recepcion datos=newTransientInstance(Recepcion.class);
+       Recepcion datos;
        if(getRecepcion()==null){
            datos  = newTransientInstance(Recepcion.class);}else
        {
@@ -179,6 +195,20 @@ public class Pedido  extends AbstractDomainObject{
       
        return this;
    } 
+    @PublishedAction
+    public Pedido agregarEnvio(@Named("Observaciones")String observaciones,@Named("Fechaingreso área")LocalDate fechaIgreso,@Named("Fecha despacho")@Optional LocalDate fechaDespacho,@Named("Empresa transporte")EmpresasTransporte empresa,@Named("Nº GUIA Transporte")String nroGuiaEnvio) 
+    {
+      final  Envio envio = newTransientInstance(Envio.class);
+       envio.setEmpresa(empresa);
+       envio.setFechaDespacho(fechaDespacho);
+       envio.setFechaIgreso(fechaIgreso);
+       envio.setNroGuiaEnvio(nroGuiaEnvio);
+       envio.setObservaciones(observaciones);
+        getEnvios().add(envio);
+        return this;
+    }
+  
+  
   public DomainObjectContainer getContainer() {
         return container;
   }

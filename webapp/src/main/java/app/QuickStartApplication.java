@@ -77,8 +77,7 @@ public class QuickStartApplication extends IsisWicketApplication {
             @Override
             protected void configure() {
                 bind(ComponentFactoryRegistrar.class).to(ComponentFactoryRegistrarForQuickStart.class);
-                
-                bind(String.class).annotatedWith(Names.named("applicationName")).toInstance("Quick Start App");
+                bind(String.class).annotatedWith(Names.named("applicationName")).toInstance("RMA-SYSTEM");
                 bind(String.class).annotatedWith(Names.named("applicationCss")).toInstance("css/application.css");
                 bind(String.class).annotatedWith(Names.named("applicationJs")).toInstance("scripts/application.js");
                 bind(String.class).annotatedWith(Names.named("welcomeMessage")).toInstance(readLines("welcome.html"));

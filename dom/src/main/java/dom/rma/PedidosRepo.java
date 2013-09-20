@@ -48,7 +48,14 @@ public class PedidosRepo extends  AbstractFactoryAndRepository {
         persist(pedido);
         return pedido;
     }
-
+/*
+    @Hidden
+    static Recepcion settingRecepcion(Recepcion recepcion,String observacinones, LocalDate fechaIngreso, LocalDate fechaDespacho, Boolean paqueteCorrecto, Boolean aceptado)
+    {
+        return recepcion;
+    }
+    */
+    
     @ActionSemantics(Of.SAFE)
     @MemberOrder(sequence = "2")
     public List<Pedido> listaPedidos() {

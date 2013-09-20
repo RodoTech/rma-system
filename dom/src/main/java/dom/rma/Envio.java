@@ -16,14 +16,11 @@ import org.apache.isis.applib.annotation.AutoComplete;
 import org.apache.isis.applib.annotation.MemberGroups;
 import org.apache.isis.applib.annotation.ObjectType;
 import org.joda.time.LocalDate;
-import dom.rma.EmpresasTransporte;
 import org.apache.isis.applib.AbstractDomainObject;
 /**
  *
  * @author Malgav5
  */
-
-
 @PersistenceCapable(identityType=IdentityType.DATASTORE)
 @DatastoreIdentity(strategy=IdGeneratorStrategy.IDENTITY)
 @Version(strategy=VersionStrategy.VERSION_NUMBER, column="VERSION")
@@ -40,7 +37,7 @@ public class Envio  extends AbstractDomainObject{
     private LocalDate fechaDespacho;
     @Persistent 
     private Pedido pedido;
-  @Persistent
+    @Persistent
     private EmpresasTransporte  empresa;
 
     public EmpresasTransporte getEmpresa() {

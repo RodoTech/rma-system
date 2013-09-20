@@ -30,3 +30,8 @@ uncomment to add a logo (in an ../images directory relative to this file)
 	display: none;
 }
 */
+.headerContainer{
+    background-color: #ff3399 !important;
+    background-image: none !important;
+}
+body{font-family:   sans-serif;}
