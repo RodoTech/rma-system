@@ -4,7 +4,7 @@
  */
 package dom.vo;
 
-import dom.cliente.Cliente;
+import dom.cliente.Customer;
 import javax.jdo.annotations.DatastoreIdentity;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.Key;
@@ -14,7 +14,9 @@ import javax.jdo.annotations.PrimaryKey;
 import javax.jdo.annotations.Version;
 import javax.jdo.annotations.VersionStrategy;
 import org.apache.isis.applib.DomainObjectContainer;
+import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ObjectType;
+import org.apache.isis.applib.annotation.RegEx;
 
 /**
  *
@@ -24,14 +26,14 @@ import org.apache.isis.applib.annotation.ObjectType;
 @DatastoreIdentity(strategy=IdGeneratorStrategy.IDENTITY)
 @Version(strategy=VersionStrategy.VERSION_NUMBER, column="VERSION")
 @ObjectType("DATOSCONTACTO")
-public class DatosContacto {
+public class ContactDetails {
 
 
 
-    public DatosContacto() {
+    public ContactDetails() {
     }
 
-    public DatosContacto(String telefono, String fax, String email) {
+    public ContactDetails(String telefono, String fax, String email) {
         this.telefono = telefono;
         this.fax = fax;
         this.email = email;
@@ -45,6 +47,7 @@ public class DatosContacto {
     @Persistent 
     private String email;
 
+    @MemberOrder(name = "Datos de contacto", sequence = "1")
     public String getTelefono() {
         return telefono;
     }
@@ -52,6 +55,7 @@ public class DatosContacto {
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
+    @MemberOrder(name = "Datos de contacto", sequence = "2")
     public String getFax() {
         return fax;
     }
@@ -59,6 +63,8 @@ public class DatosContacto {
     public void setFax(String fax) {
         this.fax = fax;
     }
+    @MemberOrder(name = "Datos de contacto", sequence = "3")
+    @RegEx(validation = "(\\w+\\.)*\\w+@(\\w+\\.)+[A-Za-z]+")
     public String getEmail() {
         return email;
     }

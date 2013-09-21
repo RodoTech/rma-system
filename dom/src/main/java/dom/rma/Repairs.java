@@ -18,11 +18,12 @@ import org.joda.time.LocalDate;
  *
  * @author Malgav5
  */
-public class Reparaciones extends  AbstractFactoryAndRepository {
+@Named("Reparaciones")
+public class Repairs extends  AbstractFactoryAndRepository {
     @Hidden
     @MemberOrder(sequence = "1")
-    public Reparacion newReparacion(
-            @Named("Pedido") Pedido pedido, 
+    public Repair newReparacion(
+            @Named("Pedido") Order pedido, 
             @Named("Fecha Ingreso REcepcion") LocalDate fechaIngreso,
             @Named("Fecha Ingreso fechaReparacion") LocalDate fechaReparacion,
             @Named("Paquete String") String observaciones,
@@ -36,17 +37,17 @@ public class Reparaciones extends  AbstractFactoryAndRepository {
 
     @ActionSemantics(ActionSemantics.Of.SAFE)
     @MemberOrder(sequence = "4")
-    public List<Reparacion> allReparaciones() {
+    public List<Repair> allReparaciones() {
     	
-    	 final List<Reparacion> reparaciones;
-        reparaciones = allInstances(Reparacion.class);
+    	 final List<Repair> reparaciones;
+        reparaciones = allInstances(Repair.class);
 		 return reparaciones; 
        
     }
     @Hidden
-    private Reparacion addReparacion(Pedido pedido, LocalDate fechaIngreso, LocalDate fechaReparacion, String observaciones, Boolean terminado, Boolean reparacionExistosa, String detalleReparacion, Money montoReparacion) {
+    private Repair addReparacion(Order pedido, LocalDate fechaIngreso, LocalDate fechaReparacion, String observaciones, Boolean terminado, Boolean reparacionExistosa, String detalleReparacion, Money montoReparacion) {
   
-        final Reparacion reparacion = newTransientInstance(Reparacion.class);
+        final Repair reparacion = newTransientInstance(Repair.class);
             reparacion.setPedido(pedido);
             reparacion.setFechaIngreso(fechaIngreso);
             reparacion.setFechaReparacion(fechaReparacion);

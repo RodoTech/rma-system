@@ -1,6 +1,6 @@
 package dom.rma;
 import com.google.common.base.Objects;
-import dom.cliente.Cliente;
+import dom.cliente.Customer;
 import java.util.ArrayList;
 import java.util.List;
 import javax.jdo.annotations.DatastoreIdentity;
@@ -20,6 +20,7 @@ import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.annotation.Optional;
 import org.apache.isis.applib.annotation.PublishedAction;
+import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.filter.Filter;
 import org.apache.isis.applib.value.Money;
 import org.joda.time.LocalDate;
@@ -32,9 +33,9 @@ import org.joda.time.LocalDate;
 @DatastoreIdentity(strategy=IdGeneratorStrategy.IDENTITY)
 @Version(strategy=VersionStrategy.VERSION_NUMBER, column="VERSION")
 @ObjectType("PEDIDO")
-@AutoComplete(repository=Pedidos.class, action="autoComplete")
+@AutoComplete(repository=Orders.class, action="autoComplete")
 @MemberGroups({"Datos Pedido"})
-public class Pedido  extends AbstractDomainObject{
+public class Order  extends AbstractDomainObject{
   @Named("Pedido")
   public String title(){
       return this.getCliente().getNroCliente() + " | " + this.getFechaPedido().toString()+" | " + this.getProducto() + "-" + this.getMarca() + "-" + this.getNumeroSerie();
@@ -76,44 +77,44 @@ public class Pedido  extends AbstractDomainObject{
   @Persistent
   private String descripcionAveria;
   @Persistent
-  private Cliente cliente;
+  private Customer cliente;
   @Persistent
-  private Recepcion recepcion;
+  private Reception recepcion;
   @Persistent
-  private Reparacion reparacion;
+  private Repair reparacion;
   
-  private  List<Envio> envios = new ArrayList<Envio>();
+  private  List<Shipping> envios = new ArrayList<Shipping>();
 
   
   @MemberOrder(sequence = "2")
-  public List<Envio> getEnvios() {
+  public List<Shipping> getEnvios() {
      return envios;
   }
 
-  public void setEnvios(List<Envio> envios) {
+  public void setEnvios(List<Shipping> envios) {
      this.envios = envios;
   }
   
-  public Reparacion getReparacion() {
+  public Repair getReparacion() {
       return reparacion;
   }
  
-  public void setReparacion(Reparacion reparacion) {
+  public void setReparacion(Repair reparacion) {
 	  this.reparacion = reparacion;
   } 
   
-  public Recepcion getRecepcion() {
+  public Reception getRecepcion() {
     return recepcion;
   }
-  public void setRecepcion(Recepcion recepcion) {
+  public void setRecepcion(Reception recepcion) {
     this.recepcion = recepcion;
   }
-  private EstadosPedido estado;
+  private OrderStatus estado;
   
-  public EstadosPedido getEstado() {
+  public OrderStatus getEstado() {
        return estado;
   }
-  public void setEstado(EstadosPedido estado) {
+  public void setEstado(OrderStatus estado) {
        this.estado = estado;
   }
   public String getMarca() {
@@ -134,9 +135,11 @@ public class Pedido  extends AbstractDomainObject{
   public void setNumeroSerie(String numeroSerie) {
        this.numeroSerie = numeroSerie;
   }
+  @RegEx(validation = "^([0-9])+$")
   public int getCantidad() {
        return cantidad;
   }
+  @RegEx(validation = "^([0-9])+$")
   public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
   }
@@ -158,16 +161,16 @@ public class Pedido  extends AbstractDomainObject{
   public void setDescripcionAveria(String descripcionAveria) {
         this.descripcionAveria = descripcionAveria;
   }
-  public Cliente getCliente() {
+  public Customer getCliente() {
         return cliente;
   }
-  public void setCliente(Cliente cliente) {
+  public void setCliente(Customer cliente) {
         this.cliente = cliente;
   }
-  public static Filter<Pedido> allByState(final EstadosPedido estado) {
-       return new Filter<Pedido>() {
+  public static Filter<Order> allByState(final OrderStatus estado) {
+       return new Filter<Order>() {
             @Override
-            public boolean accept(final Pedido pedido) {
+            public boolean accept(final Order pedido) {
                 return Objects.equal(pedido.getEstado(), estado);
             }
         };
@@ -175,10 +178,10 @@ public class Pedido  extends AbstractDomainObject{
   
   @PublishedAction
   @MemberOrder(sequence = "1")
-  public Pedido agregarRecepcion(@Named("Fecha Ingreso al sector")  LocalDate fechaIngreso,@Named("Observaciones") String observacinones,@Named("Paquete en perfecto estado")  Boolean paqueteCorrecto,@Named("Paquete aceptado")  Boolean aceptado,@Named("Fecha verificacion")  LocalDate fechaDespacho) {
-       Recepcion datos;
+  public Order agregarRecepcion(@Named("Fecha Ingreso al sector")  LocalDate fechaIngreso,@Named("Observaciones") String observacinones,@Named("Paquete en perfecto estado")  Boolean paqueteCorrecto,@Named("Paquete aceptado")  Boolean aceptado,@Named("Fecha verificacion")  LocalDate fechaDespacho) {
+       Reception datos;
        if(getRecepcion()==null){
-           datos  = newTransientInstance(Recepcion.class);}else
+           datos  = newTransientInstance(Reception.class);}else
        {
             datos=getRecepcion();
        }
@@ -187,17 +190,17 @@ public class Pedido  extends AbstractDomainObject{
        datos.setFechaIngreso(fechaIngreso);
        datos.setObservacinones(observacinones);
        datos.setPaqueteCorrecto(paqueteCorrecto);
-       this.setEstado(EstadosPedido.RECIBIDO);
+       this.setEstado(OrderStatus.RECIBIDO);
        setRecepcion(datos);
        return this;
    } 
   
   @PublishedAction
   @MemberOrder(sequence = "2")
-  public Pedido agregarReparacion(@Named("Detalles")String detalleReparacion, @Named("Fecha ingreso Taller")LocalDate fechaIngreso, @Named("Fecha Reparacion")LocalDate fechaReparacion,@Named("Monto Reparación")Money montoReparacion,@Named("Observaciones")String observaciones,@Named("Reparacion Existosa")@Optional Boolean reparacionExistosa,@Named("Reparacion Terminada") Boolean terminado) {
-       Reparacion datos;
+  public Order agregarReparacion(@Named("Detalles")String detalleReparacion, @Named("Fecha ingreso Taller")LocalDate fechaIngreso, @Named("Fecha Reparacion")LocalDate fechaReparacion,@Named("Monto Reparación")Money montoReparacion,@Named("Observaciones")String observaciones,@Named("Reparacion Existosa")@Optional Boolean reparacionExistosa,@Named("Reparacion Terminada") Boolean terminado) {
+       Repair datos;
        if(getReparacion()==null){
-           datos  = newTransientInstance(Reparacion.class);}else
+           datos  = newTransientInstance(Repair.class);}else
        {
            datos=getReparacion();
        }
@@ -214,9 +217,9 @@ public class Pedido  extends AbstractDomainObject{
    } 
   @PublishedAction
   @MemberOrder(sequence = "3")
-  public Pedido agregarEnvio(@Named("Fechaingreso área")LocalDate fechaIgreso,@Named("Observaciones")String observaciones,@Named("Fecha despacho")@Optional LocalDate fechaDespacho,@Named("Empresa transporte")EmpresasTransporte empresa,@Named("Nº GUIA Transporte")String nroGuiaEnvio) 
+  public Order agregarEnvio(@Named("Fechaingreso área")LocalDate fechaIgreso,@Named("Observaciones")String observaciones,@Named("Fecha despacho")@Optional LocalDate fechaDespacho,@Named("Empresa transporte")Carriers empresa,@Named("Nº GUIA Transporte")String nroGuiaEnvio) 
   {
-      final  Envio envio = newTransientInstance(Envio.class);
+      final  Shipping envio = newTransientInstance(Shipping.class);
       envio.setEmpresa(empresa);
       envio.setFechaDespacho(fechaDespacho);
       envio.setFechaIgreso(fechaIgreso);

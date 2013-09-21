@@ -8,6 +8,6 @@ package dom.rma;
  *
  * @author Malgav5
  */
-public enum EmpresasTransporte {
-    ViaCargo,Fedex,Oca,CorreoArgentino
+public  enum OrderStatus {
+    UNKNOW,RECIBIDO,RECHAZADO,REPARANDOCE,ENVIANDOCE
 }

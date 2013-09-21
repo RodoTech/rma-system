@@ -1,7 +1,7 @@
 package dom.cliente;
 
 import com.google.common.base.Objects;
-import dom.persona.Persona;
+import dom.persona.Person;
 import java.util.List;
 import javax.jdo.annotations.DatastoreIdentity;
 import javax.jdo.annotations.IdGeneratorStrategy;
@@ -15,8 +15,8 @@ import org.apache.isis.applib.annotation.AutoComplete;
 import org.apache.isis.applib.annotation.MemberGroups;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
-import dom.vo.DatosContacto;
-import dom.vo.Domicilio;
+import dom.vo.ContactDetails;
+import dom.vo.Address;
 import java.util.ArrayList;
 import javax.jdo.annotations.Queries;
 import javax.jdo.annotations.Query;
@@ -24,6 +24,7 @@ import org.apache.isis.applib.annotation.Disabled;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Optional;
 import org.apache.isis.applib.annotation.PublishedAction;
+import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.filter.Filter;
 
 
@@ -40,9 +41,9 @@ import org.apache.isis.applib.filter.Filter;
             name="cliente_all", language="JDOQL",  
             value="SELECT FROM dom.cliente.Cliente ")
 })
-@AutoComplete(repository=Clientes.class, action="autoComplete")
+@AutoComplete(repository=Customers.class, action="autoComplete")
 @MemberGroups({"Datos CLiente"})
-public class Cliente extends  Persona  {
+public class Customer extends  Person  {
 
     @Named("Cliente")
     public String title(){
@@ -54,71 +55,75 @@ public class Cliente extends  Persona  {
     private Boolean activo;
     @Persistent
     private String empresa;
-
+    @MemberOrder(name = "General", sequence = "4")  
     public String getEmpresa() {
         return empresa;
     }
-
+    @MemberOrder(name = "General", sequence = "4")
     public void setEmpresa(String empresa) {
         this.empresa = empresa;
     }
   
-    private  List<DatosContacto> datosContactos = new ArrayList<DatosContacto>();
-    private  List<Domicilio> domicilios = new ArrayList<Domicilio>();
+    private  List<ContactDetails> datosContactos = new ArrayList<ContactDetails>();
+    private  List<Address> domicilios = new ArrayList<Address>();
   
     @Disabled
     @MemberOrder(sequence = "1")
-    public List <DatosContacto> getDatosContacto() {
+    public List <ContactDetails> getDatosContacto() {
         return datosContactos;
     }
-    
-    private void setDatosContactos(List<DatosContacto> datosContactos) { 
+    @MemberOrder(name = "General", sequence = "3")
+    private void setDatosContactos(List<ContactDetails> datosContactos) { 
         this.datosContactos = datosContactos;
     }
     
     @PublishedAction
     @MemberOrder(sequence = "1")
-    public void agregarDomicilio(@Named("Barrio")@Optional String Barrio,@Named("Calle")String Calle, @Named("Altura") @Optional String Altura) 
+    public Customer agregarDomicilio(@Named("Barrio")@Optional String Barrio,@Named("Calle")String Calle, @Named("Altura") @Optional String Altura) 
     {
-      final  Domicilio domicilio = newTransientInstance(Domicilio.class);
+        final  Address domicilio = newTransientInstance(Address.class);
         domicilio.setAltura(Altura);
         domicilio.setBarrio(Barrio);
         domicilio.setCalle(Calle);
-        
         getDomicilios().add(domicilio);
-      //  return this;
+        return this;
     }
     
-    public List <Domicilio> getDomicilios() {
+    public List <Address> getDomicilios() {
         return domicilios;
     }
-    
-    private void setDomicilios(List<Domicilio> Domicilios) { 
+    @MemberOrder(name = "General", sequence = "3")
+    private void setDomicilios(List<Address> Domicilios) { 
         this.domicilios = Domicilios;
     }
     
     @PublishedAction
     @MemberOrder(sequence = "2")
-    public Cliente addDatosContacto(@Named("Telefono")@Optional String Telefono,@Named("Fax")@Optional String Fax,@Named("Email")String email) {
-        DatosContacto datos  = newTransientInstance(DatosContacto.class);
+    public Customer agregarDatosContacto(@Named("Telefono")@Optional String Telefono,@Named("Fax")@Optional String Fax,@RegEx(validation = "(\\w+\\.)*\\w+@(\\w+\\.)+[A-Za-z]+")@Named("Email")String email) {
+        ContactDetails datos  = newTransientInstance(ContactDetails.class);
         datos.setEmail(email);
         datos.setFax(Fax);
         datos.setTelefono(Telefono);
         getDatosContacto().add(datos);
         return this;
     } 
-    
+    @RegEx(validation = "^([0-9])+$")
+    @MemberOrder(name = "General", sequence = "5")
     public String getNroCliente() {
-            return nroCliente;
+        return nroCliente;
     }
+    @RegEx(validation = "^([0-9])+$")
+    @MemberOrder(name = "General", sequence = "5")
     public void setNroCliente(String nroCliente) {
-            this.nroCliente = nroCliente;
+        this.nroCliente = nroCliente;
     }
+    @MemberOrder(name = "General", sequence = "6")
     public Boolean getActivo() {
-            return activo;
+        return activo;
     }
+    @MemberOrder(name = "General", sequence = "6")
     public void setActivo(Boolean activo) {
-            this.activo = activo;
+        this.activo = activo;
     }
     
     // {{ injected: DomainObjectContainer
@@ -128,15 +133,15 @@ public class Cliente extends  Persona  {
         this.container = container;
     }
     
-    private Clientes clientesRepo;
-    public void injectClientesRepo(final Clientes clientesRepo) {
+    private Customers clientesRepo;
+    public void injectClientesRepo(final Customers clientesRepo) {
         this.clientesRepo = clientesRepo;
     }
 
-    public static Filter<Cliente> allActivos(final Boolean activo) {
-        return new Filter<Cliente>() {
+    public static Filter<Customer> allActivos(final Boolean activo) {
+        return new Filter<Customer>() {
             @Override
-            public boolean accept(final Cliente cliente) {
+            public boolean accept(final Customer cliente) {
                 return Objects.equal(cliente.getActivo(), activo);
             }
 

@@ -29,16 +29,16 @@ import org.joda.time.LocalDate;
 @DatastoreIdentity(strategy=IdGeneratorStrategy.IDENTITY)
 @Version(strategy=VersionStrategy.VERSION_NUMBER, column="VERSION")
 @ObjectType("Reparacion")
-@AutoComplete(repository=Reparaciones.class, action="autoComplete")
+@AutoComplete(repository=Repairs.class, action="autoComplete")
 @MemberGroups({"Datos Reparaciones"})
-public class Reparacion  extends AbstractDomainObject{
+public class Repair  extends AbstractDomainObject{
       @Named("Reparacion")
     public String title(){
         return this.getPedido().getProducto() +"-" +  this.getFechaIngreso().toString();
 
     }
     @Persistent
-    private Pedido pedido;
+    private Order pedido;
     @Persistent
     private LocalDate fechaIngreso;
     @Persistent
@@ -86,11 +86,11 @@ public class Reparacion  extends AbstractDomainObject{
         this.montoReparacion = montoReparacion;
     }
     @Hidden
-    public Pedido getPedido() {
+    public Order getPedido() {
         return pedido;
     }
     @Hidden
-    public void setPedido(Pedido pedido) {
+    public void setPedido(Order pedido) {
         this.pedido = pedido;
     }
 

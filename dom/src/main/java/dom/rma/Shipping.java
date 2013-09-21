@@ -26,9 +26,9 @@ import org.apache.isis.applib.annotation.Named;
 @DatastoreIdentity(strategy=IdGeneratorStrategy.IDENTITY)
 @Version(strategy=VersionStrategy.VERSION_NUMBER, column="VERSION")
 @ObjectType("Envio")
-@AutoComplete(repository=Envios.class, action="autoComplete")
+@AutoComplete(repository=Shipments.class, action="autoComplete")
 @MemberGroups({"Datos Envio"})
-public class Envio  extends AbstractDomainObject{
+public class Shipping  extends AbstractDomainObject{
     @Named("Envio")
     public String title(){
         return this.getPedido().getProducto() + "-"  +  this.getFechaIgreso().toString();
@@ -41,15 +41,15 @@ public class Envio  extends AbstractDomainObject{
     @Persistent
     private LocalDate fechaDespacho;
     @Persistent 
-    private Pedido pedido;
+    private Order pedido;
     @Persistent
-    private EmpresasTransporte  empresa;
+    private Carriers  empresa;
 
-    public EmpresasTransporte getEmpresa() {
+    public Carriers getEmpresa() {
         return empresa;
     }
 
-    public void setEmpresa(EmpresasTransporte empresa) {
+    public void setEmpresa(Carriers empresa) {
         this.empresa = empresa;
     }
     @Persistent 
@@ -79,11 +79,11 @@ public class Envio  extends AbstractDomainObject{
         this.fechaDespacho = fechaDespacho;
     }
 
-    public Pedido getPedido() {
+    public Order getPedido() {
         return pedido;
     }
 
-    public void setPedido(Pedido pedido) {
+    public void setPedido(Order pedido) {
         this.pedido = pedido;
     }
 

@@ -28,10 +28,10 @@ import org.joda.time.LocalDate;
 @DatastoreIdentity(strategy=IdGeneratorStrategy.IDENTITY)
 @Version(strategy=VersionStrategy.VERSION_NUMBER, column="VERSION")
 @ObjectType("Recepcion")
-@AutoComplete(repository=Recepciones.class, action="autoComplete")
+@AutoComplete(repository=Receptions.class, action="autoComplete")
 
 @MemberGroups({"Datos Recepcion"})
-public class Recepcion  extends AbstractDomainObject{
+public class Reception  extends AbstractDomainObject{
 
     @Named("Recepcion")
     public String title(){
@@ -50,14 +50,14 @@ public class Recepcion  extends AbstractDomainObject{
     @Persistent
     private Boolean aceptado;
     @Persistent 
-    private Pedido pedido;
+    private Order pedido;
 
     @Hidden
-    public Pedido getPedido() {
+    public Order getPedido() {
         return pedido;
     }
     @Hidden
-    public void setPedido(Pedido pedido) {
+    public void setPedido(Order pedido) {
         this.pedido = pedido;
     }
     public String getObservacinones() {

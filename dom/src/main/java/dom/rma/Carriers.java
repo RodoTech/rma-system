@@ -8,6 +8,7 @@ package dom.rma;
  *
  * @author Malgav5
  */
-public  enum EstadosPedido {
-    UNKNOW,RECIBIDO,RECHAZADO,REPARANDOCE,ENVIANDOCE
+
+public enum Carriers {
+    ViaCargo,Fedex,Oca,CorreoArgentino
 }

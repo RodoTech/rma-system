@@ -19,10 +19,10 @@ import org.apache.isis.applib.annotation.Named;
  */
 
 @Named("Empleado")
-public class Empleados extends  AbstractFactoryAndRepository {
+public class Staff extends  AbstractFactoryAndRepository {
    
     @MemberOrder(sequence = "1")
-    public Empleado newEmpleado(
+    public Employee newEmpleado(
             @Named("Apellido") String apellido, 
             @Named("Nombre") String nombre,
             @Named("Dni") String dni,
@@ -44,10 +44,10 @@ public class Empleados extends  AbstractFactoryAndRepository {
      * @return
      */
     @Hidden
-    public Empleado addEmpleado(String apellido, String nombre,String Dni,
+    public Employee addEmpleado(String apellido, String nombre,String Dni,
     String Telefono,String NroLegajo,Boolean activo) {
         
-        final Empleado empleado = newTransientInstance(Empleado.class);
+        final Employee empleado = newTransientInstance(Employee.class);
         empleado.setApellido(apellido);
         empleado.setNombre(nombre);
         empleado.setDni(Dni);
@@ -61,10 +61,10 @@ public class Empleados extends  AbstractFactoryAndRepository {
 
     @ActionSemantics(ActionSemantics.Of.SAFE)
     @MemberOrder(sequence = "4")
-    public List<Empleado> allEmpleados() {
+    public List<Employee> allEmpleados() {
     	
-    	 final List<Empleado> empleados;
-        empleados = allInstances(Empleado.class);
+    	 final List<Employee> empleados;
+        empleados = allInstances(Employee.class);
 		 return empleados; 
        
     }

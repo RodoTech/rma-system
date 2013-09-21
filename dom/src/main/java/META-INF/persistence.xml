@@ -25,6 +25,7 @@
       <property name="hibernate.connection.driver_class" value=""/>
       <property name="hibernate.connection.password" value=""/>
       <property name="hibernate.connection.url" value=""/>
+      <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
     </properties>
   </persistence-unit>
 </persistence>

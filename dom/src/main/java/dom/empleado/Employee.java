@@ -1,7 +1,7 @@
 package dom.empleado;
 
 
-import dom.persona.Persona;
+import dom.persona.Person;
 
 import javax.jdo.annotations.DatastoreIdentity;
 import javax.jdo.annotations.IdGeneratorStrategy;
@@ -21,9 +21,9 @@ import org.apache.isis.applib.annotation.ObjectType;
 @DatastoreIdentity(strategy=IdGeneratorStrategy.IDENTITY)
 @Version(strategy=VersionStrategy.VERSION_NUMBER, column="VERSION")
 @ObjectType("EMPLEADO")
-@AutoComplete(repository=Empleado.class, action="autoComplete")
+@AutoComplete(repository=Staff.class, action="autoComplete")
 @MemberGroups({"DATOS EMPLEADO"})
-public class Empleado extends Persona {
+public class Employee extends Person {
     /**
      *
      * @return
@@ -71,7 +71,7 @@ public class Empleado extends Persona {
     }
     
     @PublishedAction
-    public Empleado agregarDomicilio(@Named("Barrio")String Barrio,@Named("Calle")String Calle, @Named("Altura")String Altura) 
+    public Employee agregarDomicilio(@Named("Barrio")String Barrio,@Named("Calle")String Calle, @Named("Altura")String Altura) 
     {
         Domicilio domicilio = new Domicilio();
         domicilio.setAltura(Altura);
@@ -90,7 +90,7 @@ public class Empleado extends Persona {
     }
     
     @PublishedAction
-    public Empleado addCorreo(String Email) {
+    public Employee addCorreo(String Email) {
         Email mail = new Email();
         mail.setDireccion(Email);
         getEmails().add(mail);
@@ -104,8 +104,8 @@ public class Empleado extends Persona {
         this.container = container;
     }
  
-    private Empleados empleadosRepo;
-    public void injectEmpleadosRepo(final Empleados empleadosRepo) {
+    private Staff empleadosRepo;
+    public void injectEmpleadosRepo(final Staff empleadosRepo) {
         this.empleadosRepo = empleadosRepo;
     }
     

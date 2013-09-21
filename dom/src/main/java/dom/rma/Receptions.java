@@ -17,24 +17,25 @@ import org.joda.time.LocalDate;
  *
  * @author Malgav5
  */
-public class Recepciones extends  AbstractFactoryAndRepository {
+@Named("Recepciones")
+public class Receptions extends  AbstractFactoryAndRepository {
     @Hidden
     @MemberOrder(sequence = "1")
-    public Recepcion newRecepcion(
+    public Reception newRecepcion(
             @Named("Observaciones") String observacinones, 
             @Named("Fecha Ingreso REcepcion") LocalDate fechaIngreso,
             @Named("Paquete correcto") Boolean paqueteCorrecto,
             @Named("Aceptado") Boolean aceptado,
-            @Named("Aceptado") EstadosPedido estado,
-            @Named("Pedido") Pedido pedido ) {
+            @Named("Aceptado") OrderStatus estado,
+            @Named("Pedido") Order pedido ) {
         return addRecepcion(observacinones,fechaIngreso,paqueteCorrecto,aceptado,pedido,estado);   
 
     }
 
     @Hidden
-    public Recepcion addRecepcion(String observacinones,LocalDate fechaIngreso,Boolean paqueteCorrecto,Boolean aceptado,Pedido pedido, EstadosPedido estado) {
+    public Reception addRecepcion(String observacinones,LocalDate fechaIngreso,Boolean paqueteCorrecto,Boolean aceptado,Order pedido, OrderStatus estado) {
         
-        final Recepcion recepcion = newTransientInstance(Recepcion.class);
+        final Reception recepcion = newTransientInstance(Reception.class);
         recepcion.setObservacinones(observacinones);
         recepcion.setFechaIngreso(fechaIngreso);
         recepcion.setPaqueteCorrecto(paqueteCorrecto);
@@ -46,10 +47,10 @@ public class Recepciones extends  AbstractFactoryAndRepository {
     }
     @ActionSemantics(Of.SAFE)
     @MemberOrder(sequence = "4")
-    public List<Recepcion> allRecepciones() {
+    public List<Reception> allRecepciones() {
     	
-    	 final List<Recepcion> recepciones;
-        recepciones = allInstances(Recepcion.class);
+    	 final List<Reception> recepciones;
+        recepciones = allInstances(Reception.class);
 		 return recepciones; 
        
     }
