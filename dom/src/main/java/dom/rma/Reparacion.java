@@ -16,6 +16,7 @@ import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.AutoComplete;
 import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberGroups;
+import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ObjectType;
 import org.apache.isis.applib.value.Money;
 import org.joda.time.LocalDate;
@@ -28,10 +29,14 @@ import org.joda.time.LocalDate;
 @DatastoreIdentity(strategy=IdGeneratorStrategy.IDENTITY)
 @Version(strategy=VersionStrategy.VERSION_NUMBER, column="VERSION")
 @ObjectType("Reparacion")
-@AutoComplete(repository=ReparacionesRepo.class, action="autoComplete")
+@AutoComplete(repository=Reparaciones.class, action="autoComplete")
 @MemberGroups({"Datos Reparaciones"})
 public class Reparacion  extends AbstractDomainObject{
-  
+      @Named("Reparacion")
+    public String title(){
+        return this.getPedido().getProducto() +"-" +  this.getFechaIngreso().toString();
+
+    }
     @Persistent
     private Pedido pedido;
     @Persistent

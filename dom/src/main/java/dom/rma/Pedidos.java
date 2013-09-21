@@ -1,8 +1,5 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package dom.rma;
+
 import dom.cliente.Cliente;
 import java.util.List;
 import org.apache.isis.applib.AbstractFactoryAndRepository;
@@ -13,14 +10,12 @@ import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
 import org.joda.time.LocalDate;
 
-/**
- *
- * @author Malgav5
- */
-public class PedidosRepo extends  AbstractFactoryAndRepository {
+
+public class Pedidos extends  AbstractFactoryAndRepository {
     
     @MemberOrder(sequence = "1")
     public Pedido newPedido(
+            @Named("Nombre Producto") String producto,
             @Named("Marca") String marca, 
             @Named("Modelo") String modelo,
             @Named("Numero Serie") String numeroSerie,
@@ -29,13 +24,14 @@ public class PedidosRepo extends  AbstractFactoryAndRepository {
             @Named("Accesorios") String accesorios,
             @Named("Fecha Compra") LocalDate fechaCompra,
             @Named("Cliente") Cliente cliente ) {
-        return addPedido(marca,modelo,numeroSerie,descripcionAveria,cantidad,accesorios,fechaCompra,cliente);   
+        return addPedido(producto,marca,modelo,numeroSerie,descripcionAveria,cantidad,accesorios,fechaCompra,cliente);   
     }
 
     @Hidden
-    public Pedido addPedido(String marca,String modelo,String descripcionAveria,String numeroSerie,int cantidad,String accesorios,LocalDate fechaCompra,Cliente cliente) {
+    public Pedido addPedido(String producto,String marca,String modelo,String descripcionAveria,String numeroSerie,int cantidad,String accesorios,LocalDate fechaCompra,Cliente cliente) {
         
         final Pedido pedido = newTransientInstance(Pedido.class);
+        pedido.setProducto(producto);
         pedido.setAccesorios(accesorios);
         pedido.setCantidad(cantidad);
         pedido.setCliente(cliente);
@@ -43,18 +39,12 @@ public class PedidosRepo extends  AbstractFactoryAndRepository {
         pedido.setNumeroSerie(numeroSerie);
         pedido.setFechaCompra(fechaCompra);
         pedido.setMarca(marca);
+        pedido.setFechaPedido(LocalDate.now());
         pedido.setModelo(modelo);
         pedido.setEstado(EstadosPedido.UNKNOW);
         persist(pedido);
         return pedido;
     }
-/*
-    @Hidden
-    static Recepcion settingRecepcion(Recepcion recepcion,String observacinones, LocalDate fechaIngreso, LocalDate fechaDespacho, Boolean paqueteCorrecto, Boolean aceptado)
-    {
-        return recepcion;
-    }
-    */
     
     @ActionSemantics(Of.SAFE)
     @MemberOrder(sequence = "2")

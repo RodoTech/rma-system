@@ -1,8 +1,6 @@
 package dom.cliente;
 
 import java.util.List;
-
-
 import org.apache.isis.applib.AbstractFactoryAndRepository;
 import org.apache.isis.applib.annotation.ActionSemantics;
 import org.apache.isis.applib.annotation.Hidden;
@@ -11,7 +9,7 @@ import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.ActionSemantics.Of;
 
 @Named("Cliente")
-public class ClientesRepo extends  AbstractFactoryAndRepository {
+public class Clientes extends  AbstractFactoryAndRepository {
    
     @MemberOrder(sequence = "1")
     public Cliente nuevoCliente(

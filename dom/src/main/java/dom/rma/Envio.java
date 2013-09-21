@@ -17,6 +17,7 @@ import org.apache.isis.applib.annotation.MemberGroups;
 import org.apache.isis.applib.annotation.ObjectType;
 import org.joda.time.LocalDate;
 import org.apache.isis.applib.AbstractDomainObject;
+import org.apache.isis.applib.annotation.Named;
 /**
  *
  * @author Malgav5
@@ -25,10 +26,14 @@ import org.apache.isis.applib.AbstractDomainObject;
 @DatastoreIdentity(strategy=IdGeneratorStrategy.IDENTITY)
 @Version(strategy=VersionStrategy.VERSION_NUMBER, column="VERSION")
 @ObjectType("Envio")
-@AutoComplete(repository=EnviosRepo.class, action="autoComplete")
+@AutoComplete(repository=Envios.class, action="autoComplete")
 @MemberGroups({"Datos Envio"})
 public class Envio  extends AbstractDomainObject{
-    
+    @Named("Envio")
+    public String title(){
+        return this.getPedido().getProducto() + "-"  +  this.getFechaIgreso().toString();
+
+    }
     @Persistent
     private String observaciones;
     @Persistent
@@ -81,12 +86,6 @@ public class Envio  extends AbstractDomainObject{
     public void setPedido(Pedido pedido) {
         this.pedido = pedido;
     }
-
-    /**
-     *
-     * @return
-     */
-   
 
     public String getNroGuiaEnvio() {
         return nroGuiaEnvio;

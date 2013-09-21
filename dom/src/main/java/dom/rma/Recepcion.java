@@ -28,18 +28,17 @@ import org.joda.time.LocalDate;
 @DatastoreIdentity(strategy=IdGeneratorStrategy.IDENTITY)
 @Version(strategy=VersionStrategy.VERSION_NUMBER, column="VERSION")
 @ObjectType("Recepcion")
-@AutoComplete(repository=RecepcionesRepo.class, action="autoComplete")
+@AutoComplete(repository=Recepciones.class, action="autoComplete")
 
 @MemberGroups({"Datos Recepcion"})
 public class Recepcion  extends AbstractDomainObject{
 
-      @Named("Empleado")
+    @Named("Recepcion")
     public String title(){
-        return this.getFechaIngreso().toString()+"-"+this.getObservacinones();
+        return this.getPedido().getProducto() +"-" +  this.getFechaIngreso().toString()+"-"+this.getObservacinones();
 
     }
-    
-    
+
     @Persistent
     private String observacinones;
     @Persistent

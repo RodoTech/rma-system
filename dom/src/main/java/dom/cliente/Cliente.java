@@ -20,9 +20,9 @@ import dom.vo.Domicilio;
 import java.util.ArrayList;
 import javax.jdo.annotations.Queries;
 import javax.jdo.annotations.Query;
-import org.apache.isis.applib.AbstractDomainObject;
 import org.apache.isis.applib.annotation.Disabled;
 import org.apache.isis.applib.annotation.MemberOrder;
+import org.apache.isis.applib.annotation.Optional;
 import org.apache.isis.applib.annotation.PublishedAction;
 import org.apache.isis.applib.filter.Filter;
 
@@ -40,7 +40,7 @@ import org.apache.isis.applib.filter.Filter;
             name="cliente_all", language="JDOQL",  
             value="SELECT FROM dom.cliente.Cliente ")
 })
-@AutoComplete(repository=ClientesRepo.class, action="autoComplete")
+@AutoComplete(repository=Clientes.class, action="autoComplete")
 @MemberGroups({"Datos CLiente"})
 public class Cliente extends  Persona  {
 
@@ -64,13 +64,8 @@ public class Cliente extends  Persona  {
     }
   
     private  List<DatosContacto> datosContactos = new ArrayList<DatosContacto>();
-  
     private  List<Domicilio> domicilios = new ArrayList<Domicilio>();
   
-    /**
-     *
-     * @return
-     */
     @Disabled
     @MemberOrder(sequence = "1")
     public List <DatosContacto> getDatosContacto() {
@@ -82,7 +77,8 @@ public class Cliente extends  Persona  {
     }
     
     @PublishedAction
-    public void agregarDomicilio(@Named("Barrio")String Barrio,@Named("Calle")String Calle, @Named("Altura")String Altura) 
+    @MemberOrder(sequence = "1")
+    public void agregarDomicilio(@Named("Barrio")@Optional String Barrio,@Named("Calle")String Calle, @Named("Altura") @Optional String Altura) 
     {
       final  Domicilio domicilio = newTransientInstance(Domicilio.class);
         domicilio.setAltura(Altura);
@@ -102,7 +98,8 @@ public class Cliente extends  Persona  {
     }
     
     @PublishedAction
-    public Cliente addDatosContacto(@Named("Telefono")String Telefono,@Named("Fax")String Fax,@Named("Email")String email) {
+    @MemberOrder(sequence = "2")
+    public Cliente addDatosContacto(@Named("Telefono")@Optional String Telefono,@Named("Fax")@Optional String Fax,@Named("Email")String email) {
         DatosContacto datos  = newTransientInstance(DatosContacto.class);
         datos.setEmail(email);
         datos.setFax(Fax);
@@ -111,25 +108,15 @@ public class Cliente extends  Persona  {
         return this;
     } 
     
-    public Cliente()
-    {
-    }
-    
-   
     public String getNroCliente() {
             return nroCliente;
     }
-
     public void setNroCliente(String nroCliente) {
             this.nroCliente = nroCliente;
     }
-    
-
     public Boolean getActivo() {
             return activo;
     }
-    
-
     public void setActivo(Boolean activo) {
             this.activo = activo;
     }
@@ -141,11 +128,11 @@ public class Cliente extends  Persona  {
         this.container = container;
     }
     
-    private ClientesRepo clientesRepo;
-    public void injectClientesRepo(final ClientesRepo clientesRepo) {
+    private Clientes clientesRepo;
+    public void injectClientesRepo(final Clientes clientesRepo) {
         this.clientesRepo = clientesRepo;
     }
- 
+
     public static Filter<Cliente> allActivos(final Boolean activo) {
         return new Filter<Cliente>() {
             @Override

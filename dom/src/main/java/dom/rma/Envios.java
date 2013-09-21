@@ -14,7 +14,7 @@ import dom.rma.EmpresasTransporte;
  *
  * @author Malgav5
  */
-public class EnviosRepo extends  AbstractFactoryAndRepository {
+public class Envios extends  AbstractFactoryAndRepository {
     /*
        @Persistent
     private String observaciones;
@@ -58,7 +58,7 @@ public class EnviosRepo extends  AbstractFactoryAndRepository {
         envio.setNroGuiaEnvio(nroGuiaEnvio);
         envio.setObservaciones(observaciones);
         envio.setPedido(pedido);
-            persist(envio);
+        persist(envio);
         return envio;
     }
 }

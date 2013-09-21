@@ -19,7 +19,7 @@ import org.apache.isis.applib.annotation.Named;
  */
 
 @Named("Empleado")
-public class EmpleadosRepo extends  AbstractFactoryAndRepository {
+public class Empleados extends  AbstractFactoryAndRepository {
    
     @MemberOrder(sequence = "1")
     public Empleado newEmpleado(

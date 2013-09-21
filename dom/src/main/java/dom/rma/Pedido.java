@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package dom.rma;
 import com.google.common.base.Objects;
 import dom.cliente.Cliente;
@@ -17,6 +13,7 @@ import javax.jdo.annotations.VersionStrategy;
 import org.apache.isis.applib.AbstractDomainObject;
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.AutoComplete;
+import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberGroups;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
@@ -31,18 +28,27 @@ import org.joda.time.LocalDate;
  *
  * @author Malgav5
  */
-
 @PersistenceCapable(identityType=IdentityType.DATASTORE)
 @DatastoreIdentity(strategy=IdGeneratorStrategy.IDENTITY)
 @Version(strategy=VersionStrategy.VERSION_NUMBER, column="VERSION")
 @ObjectType("PEDIDO")
-@AutoComplete(repository=PedidosRepo.class, action="autoComplete")
+@AutoComplete(repository=Pedidos.class, action="autoComplete")
 @MemberGroups({"Datos Pedido"})
 public class Pedido  extends AbstractDomainObject{
   @Named("Pedido")
   public String title(){
-      return  this.getMarca()+"-"+this.getNumeroSerie();
+      return this.getCliente().getNroCliente() + " | " + this.getFechaPedido().toString()+" | " + this.getProducto() + "-" + this.getMarca() + "-" + this.getNumeroSerie();
   }
+  @Persistent
+  private String producto;
+
+    public String getProducto() {
+        return producto;
+    }
+
+    public void setProducto(String producto) {
+        this.producto = producto;
+    }
   @Persistent
   private String marca;
   @Persistent
@@ -56,6 +62,18 @@ public class Pedido  extends AbstractDomainObject{
   @Persistent
   private LocalDate fechaCompra;
   @Persistent
+  private LocalDate fechaPedido;
+
+  @Hidden
+  public LocalDate getFechaPedido() {
+      return fechaPedido;
+  }
+
+  public void setFechaPedido(LocalDate fechaPedido) {
+      this.fechaPedido = fechaPedido;
+  }
+  
+  @Persistent
   private String descripcionAveria;
   @Persistent
   private Cliente cliente;
@@ -66,17 +84,18 @@ public class Pedido  extends AbstractDomainObject{
   
   private  List<Envio> envios = new ArrayList<Envio>();
 
-   @MemberOrder(sequence = "2")
-    public List<Envio> getEnvios() {
-        return envios;
-    }
+  
+  @MemberOrder(sequence = "2")
+  public List<Envio> getEnvios() {
+     return envios;
+  }
 
-    public void setEnvios(List<Envio> envios) {
-        this.envios = envios;
-    }
+  public void setEnvios(List<Envio> envios) {
+     this.envios = envios;
+  }
   
   public Reparacion getReparacion() {
-	  return reparacion;
+      return reparacion;
   }
  
   public void setReparacion(Reparacion reparacion) {
@@ -90,6 +109,7 @@ public class Pedido  extends AbstractDomainObject{
     this.recepcion = recepcion;
   }
   private EstadosPedido estado;
+  
   public EstadosPedido getEstado() {
        return estado;
   }
@@ -152,14 +172,10 @@ public class Pedido  extends AbstractDomainObject{
             }
         };
    }
-  /**
-   *
-   * @author Malgav5
-   * Permite asignar una recepcion al pedido , además cambia el estado del pedido a "Recibido"
-   * Refactorizar para respetar normas
-   */
+  
   @PublishedAction
-  public Pedido agregarRecepcion(String observacinones, LocalDate fechaIngreso, LocalDate fechaDespacho, Boolean paqueteCorrecto, Boolean aceptado) {
+  @MemberOrder(sequence = "1")
+  public Pedido agregarRecepcion(@Named("Fecha Ingreso al sector")  LocalDate fechaIngreso,@Named("Observaciones") String observacinones,@Named("Paquete en perfecto estado")  Boolean paqueteCorrecto,@Named("Paquete aceptado")  Boolean aceptado,@Named("Fecha verificacion")  LocalDate fechaDespacho) {
        Recepcion datos;
        if(getRecepcion()==null){
            datos  = newTransientInstance(Recepcion.class);}else
@@ -177,12 +193,13 @@ public class Pedido  extends AbstractDomainObject{
    } 
   
   @PublishedAction
+  @MemberOrder(sequence = "2")
   public Pedido agregarReparacion(@Named("Detalles")String detalleReparacion, @Named("Fecha ingreso Taller")LocalDate fechaIngreso, @Named("Fecha Reparacion")LocalDate fechaReparacion,@Named("Monto Reparación")Money montoReparacion,@Named("Observaciones")String observaciones,@Named("Reparacion Existosa")@Optional Boolean reparacionExistosa,@Named("Reparacion Terminada") Boolean terminado) {
        Reparacion datos;
        if(getReparacion()==null){
            datos  = newTransientInstance(Reparacion.class);}else
        {
-            datos=getReparacion();
+           datos=getReparacion();
        }
        datos.setDetalleReparacion(detalleReparacion);
        datos.setFechaIngreso(fechaIngreso);
@@ -195,20 +212,19 @@ public class Pedido  extends AbstractDomainObject{
       
        return this;
    } 
-    @PublishedAction
-    public Pedido agregarEnvio(@Named("Observaciones")String observaciones,@Named("Fechaingreso área")LocalDate fechaIgreso,@Named("Fecha despacho")@Optional LocalDate fechaDespacho,@Named("Empresa transporte")EmpresasTransporte empresa,@Named("Nº GUIA Transporte")String nroGuiaEnvio) 
-    {
+  @PublishedAction
+  @MemberOrder(sequence = "3")
+  public Pedido agregarEnvio(@Named("Fechaingreso área")LocalDate fechaIgreso,@Named("Observaciones")String observaciones,@Named("Fecha despacho")@Optional LocalDate fechaDespacho,@Named("Empresa transporte")EmpresasTransporte empresa,@Named("Nº GUIA Transporte")String nroGuiaEnvio) 
+  {
       final  Envio envio = newTransientInstance(Envio.class);
-       envio.setEmpresa(empresa);
-       envio.setFechaDespacho(fechaDespacho);
-       envio.setFechaIgreso(fechaIgreso);
-       envio.setNroGuiaEnvio(nroGuiaEnvio);
-       envio.setObservaciones(observaciones);
-        getEnvios().add(envio);
-        return this;
-    }
-  
-  
+      envio.setEmpresa(empresa);
+      envio.setFechaDespacho(fechaDespacho);
+      envio.setFechaIgreso(fechaIgreso);
+      envio.setNroGuiaEnvio(nroGuiaEnvio);
+      envio.setObservaciones(observaciones);
+      getEnvios().add(envio);
+      return this;
+  }
   public DomainObjectContainer getContainer() {
         return container;
   }

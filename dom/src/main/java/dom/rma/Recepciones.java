@@ -17,7 +17,7 @@ import org.joda.time.LocalDate;
  *
  * @author Malgav5
  */
-public class RecepcionesRepo extends  AbstractFactoryAndRepository {
+public class Recepciones extends  AbstractFactoryAndRepository {
     @Hidden
     @MemberOrder(sequence = "1")
     public Recepcion newRecepcion(

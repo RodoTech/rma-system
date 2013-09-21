@@ -104,8 +104,8 @@ public class Empleado extends Persona {
         this.container = container;
     }
  
-    private EmpleadosRepo empleadosRepo;
-    public void injectEmpleadosRepo(final EmpleadosRepo empleadosRepo) {
+    private Empleados empleadosRepo;
+    public void injectEmpleadosRepo(final Empleados empleadosRepo) {
         this.empleadosRepo = empleadosRepo;
     }
     
