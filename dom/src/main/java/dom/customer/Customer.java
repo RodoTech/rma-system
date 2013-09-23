@@ -1,7 +1,7 @@
-package dom.cliente;
+package dom.customer;
 
 import com.google.common.base.Objects;
-import dom.persona.Person;
+import dom.person.Person;
 import java.util.List;
 import javax.jdo.annotations.DatastoreIdentity;
 import javax.jdo.annotations.IdGeneratorStrategy;

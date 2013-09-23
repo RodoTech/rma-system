@@ -1,4 +1,4 @@
-package dom.persona;
+package dom.person;
 
 import javax.jdo.annotations.*;
 

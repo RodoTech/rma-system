@@ -1,6 +1,6 @@
 package dom.rma;
 
-import dom.cliente.Customer;
+import dom.customer.Customer;
 import java.util.List;
 import org.apache.isis.applib.AbstractFactoryAndRepository;
 import org.apache.isis.applib.annotation.ActionSemantics;

@@ -1,4 +1,4 @@
-package dom.cliente;
+package dom.customer;
 
 import java.util.List;
 import org.apache.isis.applib.AbstractFactoryAndRepository;

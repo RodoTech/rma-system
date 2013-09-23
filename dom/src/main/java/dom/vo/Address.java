@@ -4,8 +4,8 @@
  */
 package dom.vo;
 
-import dom.cliente.Customer;
-import dom.empleado.Employee;
+import dom.customer.Customer;
+import dom.employee.Employee;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import org.apache.isis.applib.DomainObjectContainer;

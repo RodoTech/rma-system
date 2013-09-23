@@ -4,7 +4,7 @@
  */
 package dom.vo;
 
-import dom.cliente.Customer;
+import dom.customer.Customer;
 import javax.jdo.annotations.DatastoreIdentity;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.Key;

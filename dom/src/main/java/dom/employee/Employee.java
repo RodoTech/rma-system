@@ -1,7 +1,7 @@
-package dom.empleado;
+package dom.employee;
 
 
-import dom.persona.Person;
+import dom.person.Person;
 
 import javax.jdo.annotations.DatastoreIdentity;
 import javax.jdo.annotations.IdGeneratorStrategy;

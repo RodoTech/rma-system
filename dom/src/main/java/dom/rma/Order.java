@@ -1,6 +1,6 @@
 package dom.rma;
 import com.google.common.base.Objects;
-import dom.cliente.Customer;
+import dom.customer.Customer;
 import java.util.ArrayList;
 import java.util.List;
 import javax.jdo.annotations.DatastoreIdentity;
