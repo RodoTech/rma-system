@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import javax.jdo.annotations.Queries;
 import javax.jdo.annotations.Query;
 import org.apache.isis.applib.annotation.Disabled;
+import org.apache.isis.applib.annotation.Mask;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Optional;
 import org.apache.isis.applib.annotation.PublishedAction;
@@ -99,7 +100,7 @@ public class Customer extends  Person  {
     
     @PublishedAction
     @MemberOrder(sequence = "2")
-    public Customer agregarDatosContacto(@Named("Telefono")@Optional String Telefono,@Named("Fax")@Optional String Fax,@RegEx(validation = "(\\w+\\.)*\\w+@(\\w+\\.)+[A-Za-z]+")@Named("Email")String email) {
+    public Customer agregarDatosContacto(@Mask("(NNNN)NNN-NNNNNN")@Named("Telefono")@Optional String Telefono,@Mask("(NNNN)NNN-NNNNNN")@Named("Fax")@Optional String Fax,@RegEx(validation = "(\\w+\\.)*\\w+@(\\w+\\.)+[A-Za-z]+")@Named("Email")String email) {
         ContactDetails datos  = newTransientInstance(ContactDetails.class);
         datos.setEmail(email);
         datos.setFax(Fax);

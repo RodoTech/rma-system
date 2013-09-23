@@ -78,6 +78,7 @@ public class Order  extends AbstractDomainObject{
   private String descripcionAveria;
   @Persistent
   private Customer cliente;
+  
   @Persistent
   private Reception recepcion;
   @Persistent

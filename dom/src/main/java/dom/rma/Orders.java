@@ -6,6 +6,7 @@ import org.apache.isis.applib.AbstractFactoryAndRepository;
 import org.apache.isis.applib.annotation.ActionSemantics;
 import org.apache.isis.applib.annotation.ActionSemantics.Of;
 import org.apache.isis.applib.annotation.Hidden;
+import org.apache.isis.applib.annotation.Mask;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
 import org.joda.time.LocalDate;
@@ -15,15 +16,17 @@ public class Orders extends  AbstractFactoryAndRepository {
     @Named("Nuevo Pedido")
     @MemberOrder(sequence = "1")
     public Order newPedido(
+            @Named("Cliente")
+            Customer cliente,
             @Named("Nombre Producto") String producto,
             @Named("Marca") String marca, 
             @Named("Modelo") String modelo,
-            @Named("Numero Serie") String numeroSerie,
+            @Named("Numero Serie")@Mask("NNNNNN") String numeroSerie,
             @Named("Averia") String descripcionAveria,
             @Named("Cantidad") int cantidad,
             @Named("Accesorios") String accesorios,
-            @Named("Fecha Compra") LocalDate fechaCompra,
-            @Named("Cliente") Customer cliente ) {
+            @Named("Fecha Compra") LocalDate fechaCompra
+            ) {
         return addPedido(producto,marca,modelo,numeroSerie,descripcionAveria,cantidad,accesorios,fechaCompra,cliente);   
     }
 
