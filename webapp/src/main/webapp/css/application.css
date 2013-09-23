@@ -17,8 +17,8 @@
  *  under the License.
  */
 
-/*
-uncomment to add a logo (in an ../images directory relative to this file)
+
+
 
 #header {
     height: 48px;
@@ -29,9 +29,9 @@ uncomment to add a logo (in an ../images directory relative to this file)
 #header h1 {
 	display: none;
 }
-*/
-.headerContainer{background-image: url(../images/background.png) !important; color:dimgrey;}
+/*
+.headerContainer{background-image: url(../images/background.png) !important; background-repeat: no-repeat;  color:dimgrey;}
 .headerContainer a,h1{color:#555555;}
-.cssMenuItems{/* color:#444444; background-color:#eeeeee; /*/}
-.cssMenuItemPanel{ /*color:#444444; background-color:#eeeeee;*/ }
+.cssMenuItems{ color:#444444; background-color:#eeeeee; /}
+.cssMenuItemPanel{ color:#444444; background-color:#eeeeee; }*/
 body{font-family:   sans-serif;}
